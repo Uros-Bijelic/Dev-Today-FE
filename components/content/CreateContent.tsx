@@ -1,4 +1,5 @@
 'use client';
+
 import GoogleMapsAutocomplete from './GoogleMapsAutocomplete';
 import PreviewContent from './PreviewContent';
 
@@ -25,7 +26,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import ReactSelect, { components } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import { Editor as TinyMCEEditor } from 'tinymce';
 import { useDebounce } from 'use-debounce';
 
 import RHFInput from '@/components/RHFInputs/RHFInput';
@@ -49,7 +49,6 @@ import { revalidateRoute } from '@/lib/actions/revalidate';
 import { cn } from '@/lib/utils';
 import {
   createOrUpdateContentSchema,
-  type IContent,
   type IContentDTO,
   type IPutMeetupDTO,
   type IPutPodcastDTO,
@@ -81,11 +80,10 @@ const CreateContent: React.FC<ICreateContentProps> = ({
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [q, setQ] = useState('');
   const [title, setTitle] = useState('');
-  const [isOpenDatePopover, setIsOpenDatePopover] = useState(false);
   const { theme } = useTheme();
   const [debouncedQ] = useDebounce(q, 500);
   const [debouncedTitle] = useDebounce(title, 500);
-  const editorRef = useRef<TinyMCEEditor | null>(null);
+  const editorRef = useRef<any>(null);
   const router = useRouter();
 
   const isEditPage = !!content;
@@ -104,20 +102,13 @@ const CreateContent: React.FC<ICreateContentProps> = ({
     form.setValue('tags', []);
   };
 
-  const {
-    data: groupsData,
-    error: groupsError,
-    isLoading: isLoadingGroups,
-  } = useQuery<IGroupsResponse>({
-    queryKey: ['groups', debouncedQ],
-    queryFn: () => fetchGroupsForDropdown(debouncedQ),
-  });
+  const { data: groupsData, isLoading: isLoadingGroups } =
+    useQuery<IGroupsResponse>({
+      queryKey: ['groups', debouncedQ],
+      queryFn: () => fetchGroupsForDropdown(debouncedQ),
+    });
 
-  const {
-    data: tags,
-    error: tagsError,
-    isLoading: isLoadingTags,
-  } = useQuery<ITag[]>({
+  const { data: tags } = useQuery<ITag[]>({
     queryKey: ['tags', debouncedTitle],
     queryFn: () => fetchTags(debouncedTitle),
   });
@@ -170,7 +161,7 @@ const CreateContent: React.FC<ICreateContentProps> = ({
     label: tag.title,
   }));
 
-  const form = useForm<IContent>({
+  const form = useForm<any>({
     resolver: zodResolver(createOrUpdateContentSchema),
     defaultValues: {
       authorId: content?.authorId || authorId,
@@ -184,9 +175,9 @@ const CreateContent: React.FC<ICreateContentProps> = ({
         : undefined,
       coverImage: content?.coverImage || null,
       meetupLocation: {
-        address: content?.meetupLocation.address || '',
-        lat: content?.meetupLocation.lat || 0,
-        lng: content?.meetupLocation.lng || 0,
+        address: content?.meetupLocation?.address || '',
+        lat: content?.meetupLocation?.lat || 0,
+        lng: content?.meetupLocation?.lng || 0,
       },
       meetupDate: content?.meetupDate || undefined,
       podcastFile: content?.podcastFile || undefined,
@@ -212,15 +203,17 @@ const CreateContent: React.FC<ICreateContentProps> = ({
       'tags',
     ]);
     if (!isValid) return;
+    const selectedGroup = form.getValues('groupId');
+    if (!selectedGroup) return;
 
     const commonData: IPutPostDTO = {
       authorId: form.getValues('authorId'),
       title: form.getValues('title'),
       type: form.getValues('type'),
-      groupId: form.getValues('groupId')?.value,
+      groupId: selectedGroup.value,
       coverImage: form.getValues('coverImage'),
       description: form.getValues('description'),
-      tags: form.getValues('tags').map((tag) => tag.label),
+      tags: form.getValues('tags').map((tag: { label: string }) => tag.label),
     };
 
     if (contentType === EContentType.POST) {
@@ -246,12 +239,15 @@ const CreateContent: React.FC<ICreateContentProps> = ({
       try {
         const isValid = await form.trigger(['meetupLocation', 'meetupDate']);
         if (!isValid) return;
+        const meetupLocation = form.getValues('meetupLocation');
+        const meetupDate = form.getValues('meetupDate');
+        if (!meetupLocation || !meetupDate) return;
 
         if (isEditPage) {
           await updateMeetupAsync({
             ...commonData,
-            meetupLocation: form.getValues('meetupLocation'),
-            meetupDate: form.getValues('meetupDate'),
+            meetupLocation,
+            meetupDate,
           });
           toast.success('Updated successfully.');
           revalidateRoute(`/content/${content.id}`);
@@ -259,8 +255,8 @@ const CreateContent: React.FC<ICreateContentProps> = ({
         } else {
           await createMeetupAsync({
             ...commonData,
-            meetupLocation: form.getValues('meetupLocation'),
-            meetupDate: form.getValues('meetupDate'),
+            meetupLocation,
+            meetupDate,
           });
 
           toast.success('Created successfully.');
@@ -277,12 +273,15 @@ const CreateContent: React.FC<ICreateContentProps> = ({
       try {
         const isValid = await form.trigger(['podcastFile', 'podcastTitle']);
         if (!isValid) return;
+        const podcastFile = form.getValues('podcastFile');
+        const podcastTitle = form.getValues('podcastTitle');
+        if (!podcastFile || !podcastTitle) return;
 
         if (isEditPage) {
           await updatePodcastAsync({
             ...commonData,
-            podcastFile: form.getValues('podcastFile'),
-            podcastTitle: form.getValues('podcastTitle'),
+            podcastFile,
+            podcastTitle,
           });
 
           toast.success('Updated successfully.');
@@ -291,8 +290,8 @@ const CreateContent: React.FC<ICreateContentProps> = ({
         } else {
           await createPodcastAsync({
             ...commonData,
-            podcastFile: form.getValues('podcastFile'),
-            podcastTitle: form.getValues('podcastTitle'),
+            podcastFile,
+            podcastTitle,
           });
 
           toast.success('Created successfully.');
@@ -323,7 +322,7 @@ const CreateContent: React.FC<ICreateContentProps> = ({
   }
 
   const cleanupBodyOverflow = () => {
-    document.body.style.overflow = '';
+    document.body.removeAttribute('style');
   };
 
   return (
@@ -354,17 +353,17 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                       disabled={isEditPage}
                       {...field}
                       className={
-                        'flex-center !border-white-border bg-white-100 dark:bg-black-800 flex min-h-[46px] w-full items-center rounded-md border px-2 pl-6 capitalize outline-none sm:w-[140px] dark:!border-[#393E4F66]'
+                        'flex-center border-white-border! bg-white-100 dark:bg-black-800 flex min-h-11.5 w-full items-center rounded-md border px-2 pl-6 capitalize outline-none sm:w-35 dark:border-[#393E4F66]!'
                       }
                     >
-                      <div className="p3-regular !text-black-800 dark:!text-white-100 flex w-full items-center justify-between !font-bold ">
+                      <div className="p3-regular text-black-800! dark:text-white-100! flex w-full items-center justify-between font-bold! ">
                         <Select.Value />
                         <Image
                           src="/assets/icons/arrow-down-slim.svg"
                           alt="arrow-down"
                           width={12}
                           height={5}
-                          className="mr-2 md:ml-2 md:mr-0"
+                          className="mr-2 md:mr-0 md:ml-2"
                         />
                       </div>
                     </Select.Trigger>
@@ -405,10 +404,11 @@ const CreateContent: React.FC<ICreateContentProps> = ({
               render={({ field }) => (
                 <FormItem className="relative">
                   <FormLabel>Select Group</FormLabel>
-                  <FormControl>
+                  <FormControl className="mt-2">
                     <ReactSelect
                       instanceId={field.name}
                       {...field}
+                      unstyled
                       placeholder="Select a group..."
                       defaultValue={field.value}
                       value={form.watch('groupId')}
@@ -448,13 +448,13 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                       <Button
                         type="button"
                         onClick={() => form.setValue('coverImage', null)}
-                        className="text-white-400 hover:bg-black-700 dark:text-white-100 absolute right-0  top-[-40px] size-8 border dark:border-gray-500"
+                        className="text-white-400 hover:bg-black-700 dark:text-white-100 absolute -top-10  right-0 size-8 border dark:border-gray-500"
                       >
                         X
                       </Button>
                     </div>
                   ) : (
-                    <div className="dashed-border !text-white-400 flex h-64 w-full items-center justify-center rounded-lg">
+                    <div className="dashed-border text-white-400! flex h-64 w-full items-center justify-center rounded-lg">
                       <div className="flex flex-col items-center">
                         <CldUploadWidget
                           uploadPreset={
@@ -479,7 +479,7 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                                 open();
                               }}
                               type="button"
-                              className="bg-white-100 hover:bg-white-300/30 dark:bg-black-800 hover:dark:bg-black-700 mb-3 flex max-w-[200px] items-center gap-3 rounded-lg py-2"
+                              className="bg-white-100 hover:bg-white-300/30 dark:bg-black-800 hover:dark:bg-black-700 mb-3 flex max-w-50 items-center gap-3 rounded-lg py-2"
                             >
                               <Image
                                 src={'/assets/icons/upload-icon.svg'}
@@ -487,13 +487,13 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                                 width={16}
                                 height={16}
                               />
-                              <p className="p3-regular  !text-white-300">
+                              <p className="p3-regular  text-white-300!">
                                 Upload a cover image
                               </p>
                             </Button>
                           )}
                         </CldUploadWidget>
-                        <p className="p4-regular !text-white-400">
+                        <p className="p4-regular text-white-400!">
                           Drag & Drop or upload png or jpeg up to 16MB
                         </p>
                       </div>
@@ -518,12 +518,12 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                         <FormControl>
                           <GoogleMapsAutocomplete onChange={field.onChange} />
                         </FormControl>
-                        {form.formState.errors.meetupLocation?.address
+                        {(form.formState.errors.meetupLocation as any)?.address
                           ?.message && (
-                          <p className="p3-medium !text-error-text">
+                          <p className="p3-medium text-error-text!">
                             {
-                              form.formState.errors.meetupLocation?.address
-                                ?.message
+                              (form.formState.errors.meetupLocation as any)
+                                ?.address?.message
                             }
                           </p>
                         )}
@@ -552,7 +552,7 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                           <PopoverTrigger asChild>
                             <Button
                               className={cn(
-                                'justify-start p3-regular font-bold bg-light100__dark800 border dark:border-black-700/50 px-4 h-11 !mt-2',
+                                'justify-start p3-regular font-bold bg-light100__dark800 border dark:border-black-700/50 px-4 h-11 mt-2!',
                                 !field.value && 'text-muted-foreground'
                               )}
                             >
@@ -564,7 +564,7 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                               />
 
                               {selectedDate ? (
-                                format(field.value, 'MMMM dd, yyyy hh:mm a')
+                                format(selectedDate, 'MMMM dd, yyyy hh:mm a')
                               ) : (
                                 <span className="text-white-400">
                                   Pick a date of the meetup
@@ -587,7 +587,7 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                                 min="09:00"
                                 max="18:00"
                                 onChange={(event) => {
-                                  const currentDate = new Date(field.value);
+                                  const currentDate = new Date(selectedDate);
                                   const newDate = new Date(
                                     currentDate.toDateString() +
                                       ' ' +
@@ -642,13 +642,13 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                               open();
                             }}
                             type="button"
-                            className="border-white-border bg-white-100 text-black-900 placeholder:text-white-400 dark:bg-black-800 dark:text-white-100 !mt-2 flex w-full justify-start rounded-lg border p-3 text-sm font-medium placeholder:text-sm placeholder:font-normal focus-visible:outline-none md:px-5 dark:border-[#393E4F66] dark:placeholder:text-[#ADB3CC]"
+                            className="border-white-border bg-white-100 text-black-900 placeholder:text-white-400 dark:bg-black-800 dark:text-white-100 mt-2! flex w-full justify-start rounded-lg border p-3 text-sm font-medium placeholder:text-sm placeholder:font-normal focus-visible:outline-none md:px-5 dark:border-[#393E4F66] dark:placeholder:text-[#ADB3CC]"
                           >
                             <MicrophoneIcon
                               className={`${field.value ? 'text-green-400 dark:text-green-700' : ''}`}
                             />
                             <span
-                              className={`subtitle-medium ${field.value ? 'text-white-400 dark:!text-white-100 bg-green-400 dark:bg-green-700' : 'bg-white-200 dark:bg-black-700'}  rounded-md px-2 py-1 tracking-wide`}
+                              className={`subtitle-medium ${field.value ? 'text-white-400 dark:text-white-100! bg-green-400 dark:bg-green-700' : 'bg-white-200 dark:bg-black-700'}  rounded-md px-2 py-1 tracking-wide`}
                             >
                               {field.value ? 'File chosen' : 'Choose a file'}
                             </span>
@@ -661,7 +661,7 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                 )}
               />
               <RHFInput
-                className="!placeholder:white-400 p3-medium dark:!placeholder-white-400"
+                className="!placeholder:white-400 p3-medium dark:placeholder-white-400!"
                 name="podcastTitle"
                 label="Audio title"
                 placeholder="Ex: Codetime | Episode 8"
@@ -683,7 +683,6 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                     onEditorChange={(content) => field.onChange(content)}
                     init={{
                       skin: theme === 'dark' ? 'oxide-dark' : 'oxide',
-                      icons: 'thin',
                       toolbar_location: 'top',
                       content_css: 'dark',
                       content_style: `body {
@@ -712,7 +711,7 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                       plugins: 'code codesample link preview image lists',
                       toolbar:
                         'customImageButton customPreview | bold italic underline link strikethrough alignleft aligncenter alignright image numlist bullist',
-                      setup: function (editor) {
+                      setup: function (editor: any) {
                         editor.ui.registry.addButton('customImageButton', {
                           text: 'Write',
                           icon: 'edit-block',
@@ -743,6 +742,7 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                 <CreatableSelect
                   instanceId={field.name}
                   {...field}
+                  unstyled
                   onInputChange={(value) => setTitle(value)}
                   classNames={generateSelectStyles()}
                   isMulti
@@ -750,7 +750,9 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                   options={selectTagsOptions
                     ?.filter(
                       (item) =>
-                        !field.value?.find((tag) => tag.label === item.label)
+                        !field.value?.find(
+                          (tag: { label: string }) => tag.label === item.label
+                        )
                     )
                     .map((item) => ({
                       value: item.value,
@@ -776,9 +778,9 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                     );
                   }}
                 />
-                {form.formState.errors.tags?.[0]?.label?.message && (
-                  <p className="p3-medium !text-error-text">
-                    {form.formState.errors.tags[0].label.message}
+                {(form.formState.errors.tags as any)?.[0]?.label?.message && (
+                  <p className="p3-medium text-error-text!">
+                    {(form.formState.errors.tags as any)[0].label.message}
                   </p>
                 )}
               </FormItem>
@@ -812,9 +814,10 @@ const CreateContent: React.FC<ICreateContentProps> = ({
 
 export default CreateContent;
 
-const Option = (props: any) => {
+const Option = (props) => {
+  const OptionComponent = components.Option as React.ComponentType<any>;
   return (
-    <components.Option {...props}>
+    <OptionComponent {...props}>
       <div className="flex cursor-pointer items-center gap-2">
         <Image
           src={props.data.profileImage || '/assets/icons/bootstrap.svg'}
@@ -830,6 +833,6 @@ const Option = (props: any) => {
           </p>
         </div>
       </div>
-    </components.Option>
+    </OptionComponent>
   );
 };

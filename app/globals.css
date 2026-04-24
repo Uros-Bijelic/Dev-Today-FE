@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@config "../tailwind.config.ts";
+@import "tailwindcss";
 
 * {
   box-sizing: border-box;
@@ -165,10 +164,10 @@ body::-webkit-scrollbar {
     @apply flex flex-col md:flex-row min-h-screen;
   }
   .auth-onboarding-left-sidebar {
-    @apply flex flex-col flex-1 bg-light100__dark800  shrink-0 max-md:hidden relative px-5 md:px-8;
+    @apply flex flex-col flex-1 bg-white-100 dark:bg-black-800 shrink-0 max-md:hidden relative px-5 md:px-8;
   }
   .auth-onboarding-right-sidebar {
-    @apply flex flex-col flex-1 bg-light200__dark900  shrink-0 items-center my-12 md:my-36 px-5 md:px-8;
+    @apply flex flex-col flex-1 bg-white-200 dark:bg-black-900 shrink-0 items-center my-12 md:my-36 px-5 md:px-8;
   }
   /* LAYOUT */
 
@@ -181,13 +180,13 @@ body::-webkit-scrollbar {
 
   /* MISC */
   .nav-link-tab {
-    @apply p1-medium text-white-400 dark:text-white-300 py-2 px-3.5 rounded-[7px] w-auto break-keep	hover:-translate-y-1 hover:transition-transform;
+    @apply text-[14px] md:!text-[18px] leading-[20px] font-medium text-white-400 dark:text-white-300 py-2 px-3.5 rounded-[7px] w-auto break-keep hover:-translate-y-1 hover:transition-transform;
   }
   .nav-link-tab--active {
     @apply bg-primary-500 !text-white-100 dark:!text-white-100;
   }
   .dropdown-item {
-    @apply flex items-center gap-2.5 p3-medium cursor-pointer hover:translate-x-2 transition-transform;
+    @apply flex items-center gap-2.5 text-sm font-medium text-black-800 dark:text-white-200 cursor-pointer hover:translate-x-2 transition-transform;
   }
   /* MISC */
 
@@ -236,9 +235,7 @@ input:-webkit-autofill:active {
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
-    -webkit-text-fill-color: theme(
-      'colors.white.100'
-    ) !important; /* for dark theme */
+    -webkit-text-fill-color: #ffffff !important; /* for dark theme */
   }
 }
 

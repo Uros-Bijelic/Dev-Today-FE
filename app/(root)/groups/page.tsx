@@ -11,13 +11,18 @@ import { parseSearchParams } from '@/utils/query';
 // ---------------------------------------- ------------------------
 
 interface IGroupsPage {
-  searchParams: {
+  searchParams: Promise<{
     sortBy: string | string[] | undefined;
-  };
+  }>;
 }
 
 const GroupsPage: React.FC<IGroupsPage> = async ({ searchParams }) => {
-  const sortBy: ESortByFilter = parseSearchParams(searchParams.sortBy, '');
+  const resolvedSearchParams = await searchParams;
+
+  const sortBy: ESortByFilter = parseSearchParams(
+    resolvedSearchParams.sortBy,
+    ''
+  );
 
   const session = await auth();
   if (!session) throw new Error('User session is not available!');

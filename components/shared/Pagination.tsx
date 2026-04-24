@@ -23,10 +23,10 @@ const Pagination: React.FC<IPaginationProps> = ({
           onClick={() => setPage((prevPage) => prevPage - 1)}
           disabled={disablePrevBtn}
         >
-          <span className="p3-medium break-keep">Prev</span>
+          <span className="p3-medium break-keep!">Prev</span>
         </Button>
         <div className="flex-center px-8 py-2.5">
-          <span className="p3-regular break-keep">
+          <span className="p3-regular break-keep!">
             {currentPage}/{totalPages}
           </span>
         </div>
@@ -37,7 +37,7 @@ const Pagination: React.FC<IPaginationProps> = ({
           }}
           disabled={disableNextBtn}
         >
-          <span className="p3-medium break-keep">Next</span>
+          <span className="p3-medium break-keep!">Next</span>
         </Button>
       </div>
     </div>

@@ -31,7 +31,7 @@ export const profileSchema = z.object({
   userName: z.string().optional(),
   name: z.string().optional().optional(),
   email: z
-    .string({ required_error: 'Email is required!' })
+    .string({ error: 'Email is required!' })
     .trim()
     .email('Please provide valid email address!')
     .optional(),
@@ -136,7 +136,7 @@ export const meetupSchema = baseContentSchema.extend({
     lat: z.number(),
     lng: z.number(),
   }),
-  meetupDate: z.coerce.date({ invalid_type_error: 'INVALID' }),
+  meetupDate: z.coerce.date({ error: 'INVALID' }),
 });
 
 export type IMeetup = z.infer<typeof meetupSchema>;
@@ -161,32 +161,83 @@ export const updatePodcastSchemaDTO = updateContentDTO.merge(podcastSchema);
 
 export type IUpdateContentDTO = z.infer<typeof updateContentDTO>;
 
-export type IContentDTO = Omit<IContent, 'tags' | 'groupId'> & {
-  groupId: string;
-  tags: {
-    id: string;
-    title: string;
-  }[];
-};
+export const contentDTOSchema = z.object({
+  id: z.string(),
+  authorId: z.string(),
+  title: z.string(),
+  type: z.nativeEnum(EContentType),
+  groupId: z.string(),
+  coverImage: z.string().nullable(),
+  description: z.string(),
+  tags: z.array(
+    z.object({
+      id: z.string(),
+      title: z.string(),
+    })
+  ),
+  group: z.object({
+    id: z.string(),
+    bio: z.string(),
+    name: z.string(),
+    coverImage: z.string(),
+  }),
+  meetupLocation: z
+    .object({
+      address: z.string(),
+      lat: z.number(),
+      lng: z.number(),
+    })
+    .optional(),
+  meetupDate: z.date().nullable().optional(),
+  podcastFile: z.string().nullable().optional(),
+  podcastTitle: z.string().nullable().optional(),
+});
 
-export type IPutPostDTO = Omit<IPost, 'tags' | 'groupId' | 'group' | 'id'> & {
-  groupId: string;
-  tags: string[];
-};
-export type IPutMeetupDTO = Omit<
-  IMeetup,
-  'tags' | 'groupId' | 'group' | 'id'
-> & {
-  groupId: string;
-  tags: string[];
-};
-export type IPutPodcastDTO = Omit<
-  IPodcast,
-  'tags' | 'groupId' | 'group' | 'id'
-> & {
-  groupId: string;
-  tags: string[];
-};
+export type IContentDTO = z.infer<typeof contentDTOSchema>;
+
+export const putPostDTOSchema = z.object({
+  authorId: z.string(),
+  title: z.string(),
+  type: z.nativeEnum(EContentType),
+  groupId: z.string(),
+  coverImage: z.string().nullable(),
+  description: z.string(),
+  tags: z.array(z.string()),
+});
+
+export type IPutPostDTO = z.infer<typeof putPostDTOSchema>;
+
+export const putMeetupDTOSchema = z.object({
+  authorId: z.string(),
+  title: z.string(),
+  type: z.nativeEnum(EContentType),
+  groupId: z.string(),
+  coverImage: z.string().nullable(),
+  description: z.string(),
+  tags: z.array(z.string()),
+  meetupLocation: z.object({
+    address: z.string(),
+    lat: z.number(),
+    lng: z.number(),
+  }),
+  meetupDate: z.date(),
+});
+
+export type IPutMeetupDTO = z.infer<typeof putMeetupDTOSchema>;
+
+export const putPodcastDTOSchema = z.object({
+  authorId: z.string(),
+  title: z.string(),
+  type: z.nativeEnum(EContentType),
+  groupId: z.string(),
+  coverImage: z.string().nullable(),
+  description: z.string(),
+  tags: z.array(z.string()),
+  podcastFile: z.string(),
+  podcastTitle: z.string(),
+});
+
+export type IPutPodcastDTO = z.infer<typeof putPodcastDTOSchema>;
 
 export const commentFormSchema = z.object({
   id: z.string().optional(),
@@ -297,7 +348,7 @@ export const createOrUpdateContentSchema = z.object({
       label: z.string().min(1),
     },
     {
-      required_error: 'Group is required',
+      error: 'Group is required',
     }
   ),
   coverImage: z.string().url().nullable(),
@@ -323,10 +374,10 @@ export const createOrUpdateContentSchema = z.object({
     })
     .optional(),
   meetupDate: z.coerce.date({
-    invalid_type_error: 'Please provide valid date',
+    error: 'Please provide valid date',
   }),
   podcastFile: z
-    .string({ required_error: 'Podcast file is required' })
+    .string({ error: 'Podcast file is required' })
     .min(1, 'Please provide valid file'),
   podcastTitle: z
     .string()

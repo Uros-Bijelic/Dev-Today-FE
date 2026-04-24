@@ -1,8 +1,10 @@
+import type { ReactNode } from 'react';
+
 // ----------------------------------------------------------------
 
 interface ISidebarItemWrapperProps {
   title: string;
-  items: JSX.Element[];
+  items: ReactNode[];
 }
 
 const SidebarItemWrapper: React.FC<ISidebarItemWrapperProps> = ({
