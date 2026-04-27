@@ -1,6 +1,7 @@
 'use client';
 
 import * as Dialog from '@radix-ui/react-dialog';
+import { VisuallyHidden } from 'radix-ui';
 import { useEffect, useState } from 'react';
 import { ShareSocial } from 'react-share-social';
 
@@ -50,8 +51,14 @@ interface IShareOnSocialNetworkDialogProps {
 const ShareOnSocialNetworkDialog: React.FC<
   IShareOnSocialNetworkDialogProps
 > = ({ triggerBtn, customUrl }) => {
+  console.log('customUrl', customUrl);
+
   const [isOpen, setIsOpen] = useState(false);
   const [url, setUrl] = useState('');
+
+  // const url = customUrl
+  //   ? window.location.origin + customUrl
+  //   : window.location.href;
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -62,20 +69,25 @@ const ShareOnSocialNetworkDialog: React.FC<
         setUrl(window.location.href);
       }
     }
+    console.log('window.location.origin', window.location.origin);
+    console.log('window.location.href', window.location.href);
   }, [customUrl]);
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
       <Dialog.Trigger asChild>{triggerBtn}</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 backdrop-blur-md data-[state=open]:animate-overlayShow" />
+        <Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 backdrop-blur-md" />
         <Dialog.Content
-          className="fixed left-1/2 top-1/2 flex max-h-[85vh] w-[354px] -translate-x-1/2 -translate-y-1/2 flex-col gap-6 rounded-[10px] bg-white-100 px-3.5 py-[30px] shadow-card focus:outline-none data-[state=open]:animate-contentShow dark:bg-black-900 md:gap-[30px] md:px-10 md:py-9 lg:w-[520px] lg:rounded-2xl"
+          className="bg-white-100 shadow-card data-[state=open]:animate-contentShow dark:bg-black-900 fixed top-1/2 left-1/2 flex max-h-[85vh] w-[354px] -translate-x-1/2 -translate-y-1/2 flex-col gap-6 rounded-[10px] px-3.5 py-[30px] focus:outline-none md:gap-[30px] md:px-10 md:py-9 lg:w-[520px] lg:rounded-2xl"
           onClick={(e) => {
             e.stopPropagation();
             e.nativeEvent.preventDefault();
           }}
         >
+          <VisuallyHidden.Root>
+            <Dialog.Title></Dialog.Title>
+          </VisuallyHidden.Root>
           <div className="flex-between">
             <h1 className="h1-medium">Share with</h1>
             <Dialog.Close asChild>

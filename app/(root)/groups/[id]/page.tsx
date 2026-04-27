@@ -10,23 +10,23 @@ import { typedFetch } from '@/utils/api';
 import { parseSearchParams } from '@/utils/query';
 
 interface IGroupDetailsPage {
-  params: {
+  params: Promise<{
     id: string;
-  };
-  searchParams: {
+  }>;
+  searchParams: Promise<{
     page: string | string[] | undefined;
     type: string | string[] | undefined;
-  };
+  }>;
 }
 
 const GroupDetailsPage: React.FC<IGroupDetailsPage> = async ({
   params,
   searchParams,
 }) => {
-  const id = params.id;
+  const id = (await params).id;
   // const page = parseSearchParams(searchParams.page, '1');
   const contentType = parseSearchParams<EQueryType>(
-    searchParams.type,
+    (await searchParams).type,
     EQueryType.POST
   );
 

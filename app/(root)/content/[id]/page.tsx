@@ -4,10 +4,9 @@ import Link from 'next/link';
 import ContentDetails from '@/components/content/ContentDetails';
 import FollowButton from '@/components/content/FollowButton';
 // import ShareOnSocialNetwork from '@/components/content/ShareOnSocialNetwork';
+import ShareIcon from '@/components/icons/Share';
 import SidebarContentCard from '@/components/shared/RightSidebarItems/SidebarContentCard';
 import ShareOnSocialNetworkDialog from '@/components/shared/ShareOnSocialNetworkDialog';
-// import ShareOnSocialNetworkDialog from '@/components/shared/ShareOnSocialNetworkDialog';
-import ShareIcon from '@/components/icons/Share';
 import { Button } from '@/components/ui/button';
 import { auth } from '@/lib/auth';
 import type { IComment } from '@/lib/validation';
@@ -101,7 +100,8 @@ const ContentPage: React.FC<IContentPageProps> = async ({ params }) => {
           triggerBtn={
             <Button
               size="large"
-              className="flex-center bg-white-100 shadow-card hover:bg-white-400/30 dark:bg-black-800 hover:dark:bg-black-700 cursor-pointer gap-2 rounded py-2 transition-colors"
+              className="flex-center bg-white-100 shadow-card hover:bg-white-400/30 dark:bg-black-800 hover:dark:bg-black-700 cursor-pointer gap-2 
+              rounded py-2 transition-colors"
             >
               <ShareIcon className="text-black-700 dark:text-white-300" />
               <p className="p3-medium">Share with</p>
