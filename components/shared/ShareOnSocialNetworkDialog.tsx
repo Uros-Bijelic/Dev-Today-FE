@@ -1,81 +1,58 @@
 'use client';
 
+import { Button } from '../ui/button';
+
 import * as Dialog from '@radix-ui/react-dialog';
 import { VisuallyHidden } from 'radix-ui';
-import { useEffect, useState } from 'react';
-import { ShareSocial } from 'react-share-social';
+import { useState } from 'react';
+import {
+  FacebookIcon,
+  FacebookShareButton,
+  LinkedinIcon,
+  LinkedinShareButton,
+  TelegramIcon,
+  TelegramShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
+} from 'react-share';
 
+import ShareIcon from '@/components/icons/Share';
 import CloseIcon from '@/components/icons/CloseIcon';
-
-// ----------------------------------------------------------------
-
-const style = {
-  root: {
-    background: 'transparent',
-    borderRadius: 3,
-    border: 0,
-    color: 'white',
-  },
-  iconContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'justify-between',
-    width: '100%',
-  },
-  copyContainer: {
-    border: '1px solid rgba(72, 72, 73, 0.4)',
-    background: 'transparent',
-    borderRadius: 7,
-  },
-  copyUrl: {
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    color: '#808191',
-  },
-  title: {
-    color: 'aquamarine',
-    fontStyle: 'italic',
-  },
-  copyIcon: {
-    cursor: 'pointer',
-    color: '#55597D',
-  },
-};
-
+import { cn } from '@/lib/utils';
 interface IShareOnSocialNetworkDialogProps {
-  triggerBtn?: React.ReactNode;
+  btnText?: React.ReactNode;
   customUrl?: string;
+  btnStyles?: string;
 }
 
 const ShareOnSocialNetworkDialog: React.FC<
   IShareOnSocialNetworkDialogProps
-> = ({ triggerBtn, customUrl }) => {
-  console.log('customUrl', customUrl);
-
+> = ({ btnText, customUrl, btnStyles }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [url, setUrl] = useState('');
 
-  // const url = customUrl
-  //   ? window.location.origin + customUrl
-  //   : window.location.href;
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (customUrl) {
-        setUrl(window.location.origin + customUrl);
-        return;
-      } else {
-        setUrl(window.location.href);
-      }
-    }
-    console.log('window.location.origin', window.location.origin);
-    console.log('window.location.href', window.location.href);
-  }, [customUrl]);
+  const url =
+    typeof window !== 'undefined'
+      ? customUrl
+        ? window.location.origin + customUrl
+        : window.location.href
+      : '';
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
-      <Dialog.Trigger asChild>{triggerBtn}</Dialog.Trigger>
+      <Dialog.Trigger asChild>
+        <Button
+          size="large"
+          className={cn(`flex-center bg-white-100 shadow-card hover:bg-white-400/30 dark:bg-black-800 hover:dark:bg-black-700 cursor-pointer gap-2 
+              rounded py-2 transition-colors px-2 ${btnStyles}`)}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.nativeEvent.preventDefault();
+          }}
+        >
+          {btnText}
+          <ShareIcon className="text-black-700 dark:text-white-300" />
+        </Button>
+      </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 backdrop-blur-md" />
         <Dialog.Content
@@ -91,14 +68,45 @@ const ShareOnSocialNetworkDialog: React.FC<
           <div className="flex-between">
             <h1 className="h1-medium">Share with</h1>
             <Dialog.Close asChild>
-              <CloseIcon className="text-black-800 dark:text-white-200" />
+              <CloseIcon className="text-black-800 dark:text-white-200 cursor-pointer" />
             </Dialog.Close>
           </div>
-          <ShareSocial
-            url={url}
-            socialTypes={['linkedin', 'whatsapp', 'telegram', 'facebook']}
-            style={style}
-          />
+          <div className="flex items-center justify-center gap-2.5">
+            <LinkedinShareButton
+              title="Share on Linkedin"
+              htmlTitle="Share on Linkedin"
+              url={url}
+              aria-label="Share by Linkedin"
+            >
+              <LinkedinIcon size={32} round />
+            </LinkedinShareButton>
+            <FacebookShareButton
+              title="Share on Facebook"
+              htmlTitle="Share on Facebook"
+              url={url}
+              aria-label="Share by Facebook"
+            >
+              <FacebookIcon size={32} round />
+            </FacebookShareButton>
+          </div>
+          <div className="flex items-center justify-center gap-5">
+            <TelegramShareButton
+              title="Share on Telegram"
+              htmlTitle="Share on Telegram"
+              url={url}
+              aria-label="Share by Telegram"
+            >
+              <TelegramIcon size={32} round />
+            </TelegramShareButton>
+            <WhatsappShareButton
+              title="Share on Whatsapp"
+              htmlTitle="Share on Whatsapp"
+              url={url}
+              aria-label="Share by Whatsapp"
+            >
+              <WhatsappIcon size={32} round />
+            </WhatsappShareButton>
+          </div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

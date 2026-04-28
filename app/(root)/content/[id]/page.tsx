@@ -96,18 +96,7 @@ const ContentPage: React.FC<IContentPageProps> = async ({ params }) => {
             </p>
           </div>
         </div>
-        <ShareOnSocialNetworkDialog
-          triggerBtn={
-            <Button
-              size="large"
-              className="flex-center bg-white-100 shadow-card hover:bg-white-400/30 dark:bg-black-800 hover:dark:bg-black-700 cursor-pointer gap-2 
-              rounded py-2 transition-colors"
-            >
-              <ShareIcon className="text-black-700 dark:text-white-300" />
-              <p className="p3-medium">Share with</p>
-            </Button>
-          }
-        />
+        <ShareOnSocialNetworkDialog btnText="Share" />
         <div className="right-sidebar-item p2-medium text-white-400! hidden rounded-2xl md:block ">
           <p>
             <span className="text-blue-500">{authorName} </span> Posted on{' '}

@@ -2,9 +2,6 @@
 
 import ShareOnSocialNetworkDialog from './ShareOnSocialNetworkDialog';
 
-import ShareIcon from '../icons/Share';
-import { Button } from '../ui/button';
-
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -70,19 +67,8 @@ const GroupItemCard: React.FC<IGroupItemCardProps> = ({
             </div>
           </div>
           <ShareOnSocialNetworkDialog
-            triggerBtn={
-              <Button
-                variant="icon"
-                className="bg-white-200 dark:bg-black-700 size-7.5 rounded-full"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  e.nativeEvent.preventDefault();
-                }}
-              >
-                <ShareIcon className="text-white-300" />
-              </Button>
-            }
             customUrl={`/groups/${id}`}
+            btnStyles="w-auto hover:rounded-full"
           />
         </div>
       </Link>
