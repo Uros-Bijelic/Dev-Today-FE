@@ -44,7 +44,6 @@ const GroupDetails: React.FC<IGroupDetailsProps> = ({
   groupMembers,
   viewerId,
 }) => {
-  console.log('GroupDetails', group);
   const isGroupMember = !isGroupOwner && (isGroupUser || isGroupAdmin);
 
   const membersCount = { users: 0, admins: 0 };

@@ -64,7 +64,6 @@ const EditProfile: React.FC<IEditProfileProps> = ({ user }) => {
     } catch (error) {
       console.log('Error updating user profile', error);
       if (error instanceof Error) {
-        console.log('Error updating user profile', error.message);
         toast.error("Couldn't update user profile");
       }
     }

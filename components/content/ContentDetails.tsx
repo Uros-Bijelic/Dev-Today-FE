@@ -66,7 +66,6 @@ const ContentDetails: React.FC<IContentDetailsProps> = ({
       revalidateRoute(route);
       router.push(route);
     } catch (error) {
-      console.log('Error deleting content FE', error);
       toast.error('Something went wrong');
     }
   };

@@ -53,67 +53,6 @@ export const proxy = async (request: NextRequest) => {
   return NextResponse.next();
 };
 
-// export default withAuth(
-//   // `withAuth` augments your `Request` with the user's token.
-//   function middleware(request) {
-//     const pathname = request.nextUrl.pathname;
-//     const token = request.nextauth.token;
-
-//     console.log('token', token);
-
-//     const protectedPages = [
-//       '/content',
-//       '/posts',
-//       '/meetups',
-//       '/podcasts',
-//       '/groups',
-//       '/createPage',
-//       '/profile',
-//     ];
-//     if (!token) {
-//       if (
-//         protectedPages.some((page) => pathname.includes(page)) ||
-//         pathname === '/'
-//       ) {
-//         return NextResponse.redirect(new URL('/login', request.url));
-//       }
-//     } else {
-//       if (pathname === '/') {
-//         return NextResponse.redirect(new URL('/posts', request.url));
-//       }
-
-//       if (pathname.startsWith('/onboarding') && token.isOnboardingCompleted) {
-//         return NextResponse.redirect(new URL('/posts', request.url));
-//       }
-
-//       if (
-//         (pathname.startsWith('/register') || pathname.startsWith('/login')) &&
-//         token.isOnboardingCompleted
-//       ) {
-//         return NextResponse.redirect(new URL('/posts', request.url));
-//       }
-
-//       if (
-//         protectedPages.some((page) => pathname.includes(page)) &&
-//         !token.isOnboardingCompleted
-//       ) {
-//         return NextResponse.redirect(new URL('/onboarding', request.url));
-//       }
-//     }
-//     return NextResponse.next();
-//   },
-//   {
-//     callbacks: {
-//       authorized: ({ token }) => !!token,
-//     },
-//     pages: {
-//       signIn: '/login',
-//       newUser: '/register',
-//     },
-//     secret: process.env.NEXTAUTH_SECRET,
-//   }
-// );
-
 export const config = {
   matcher: '/((?!api|_next/static|_next/image|assets|favicon.ico).*)',
 };
