@@ -12,7 +12,7 @@ import { CldUploadWidget } from 'next-cloudinary';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import CreatableSelect from 'react-select/creatable';
 import { useDebounce } from 'use-debounce';
@@ -51,11 +51,7 @@ const CreateGroup: React.FC<ICreateGroup> = ({ viewerId, group }) => {
   const [debouncedQ] = useDebounce(q, 500);
   const router = useRouter();
 
-  const {
-    data: users,
-    error: usersError,
-    isLoading: isFetchingUsers,
-  } = useQuery<IGroupDropdownUser[]>({
+  const { data: users } = useQuery<IGroupDropdownUser[]>({
     queryKey: [EContentGroupQueries.FETCH_USERS, debouncedQ],
     queryFn: () => fetchUsers(debouncedQ),
   });
@@ -99,7 +95,10 @@ const CreateGroup: React.FC<ICreateGroup> = ({ viewerId, group }) => {
     },
   });
 
-  const coverImage = form.watch('coverImage');
+  const coverImage = useWatch({
+    control: form.control,
+    name: 'coverImage',
+  });
 
   const onSubmit = async (data: IBaseGroupSchema) => {
     const modifiedMembers = data.members.map((member) => {
@@ -126,14 +125,8 @@ const CreateGroup: React.FC<ICreateGroup> = ({ viewerId, group }) => {
         router.push('/groups');
       }
     } catch (error) {
-      console.log('Error on craete or update group', error);
-      // throw new Error('Something went wrong');
       toast.error('Ooops something went wrong');
     }
-  };
-
-  const cleanupBodyOverflow = () => {
-    document.body.style.overflow = '';
   };
 
   return (
@@ -167,7 +160,7 @@ const CreateGroup: React.FC<ICreateGroup> = ({ viewerId, group }) => {
                       <Button
                         type="button"
                         onClick={() => form.setValue('coverImage', null)}
-                        className="text-white-400 hover:bg-black-700 dark:text-white-100 absolute right-0 -top-10 size-8 dark:border-gray-500"
+                        className="text-white-400 hover:bg-black-700 dark:text-white-100 absolute -top-10 right-0 size-8 dark:border-gray-500"
                       >
                         X
                       </Button>
@@ -185,7 +178,7 @@ const CreateGroup: React.FC<ICreateGroup> = ({ viewerId, group }) => {
                             } else {
                               field.onChange(res.info);
                             }
-                            cleanupBodyOverflow();
+                            document.body.style.overflow = '';
                           }}
                           options={{
                             multiple: false,

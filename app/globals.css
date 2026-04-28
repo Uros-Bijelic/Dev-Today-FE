@@ -1,5 +1,5 @@
 @config "../tailwind.config.ts";
-@import "tailwindcss";
+@import 'tailwindcss';
 
 * {
   box-sizing: border-box;
@@ -29,6 +29,32 @@ body::-webkit-scrollbar {
   img {
     /* width: auto; */
     height: auto;
+  }
+
+  button,
+  [role='button'],
+  input[type='button'],
+  input[type='submit'],
+  input[type='reset'],
+  label[for],
+  summary {
+    cursor: pointer;
+  }
+
+  [role='menuitem'],
+  [role='menuitemcheckbox'],
+  [role='menuitemradio'],
+  [role='option'],
+  [cmdk-item],
+  [data-radix-collection-item] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  input:disabled,
+  [aria-disabled='true'],
+  [data-disabled] {
+    cursor: not-allowed;
   }
 }
 

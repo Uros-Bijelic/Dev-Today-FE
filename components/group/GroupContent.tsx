@@ -63,29 +63,34 @@ const GroupContent: React.FC<IGroupContentWrapperProps> = ({
   const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
 
-  const {
-    isLoading: isLoadingContent,
-    error: contentError,
-    data: contentData,
-  } = useQuery<IGroupContentResponse>({
-    initialData: groupContent,
-    queryKey: [updateContentQueryKey(contentType), contentType, page],
-    queryFn: () => fetchGroupContent(groupId, page, contentType, viewerId),
-    enabled: contentType !== EQueryType.MEMBERS && page !== 1,
-  });
+  const { isLoading: isLoadingContent, data: contentData } =
+    useQuery<IGroupContentResponse>({
+      initialData: groupContent,
+      queryKey: [
+        updateContentQueryKey(contentType),
+        contentType,
+        page,
+        groupId,
+        viewerId,
+      ],
+      queryFn: () => fetchGroupContent(groupId, page, contentType, viewerId),
+      enabled: contentType !== EQueryType.MEMBERS && page !== 1,
+    });
 
-  const {
-    isLoading: isLoadingMembers,
-    error: membersError,
-    data: membersData,
-  } = useQuery<IGroupMembersResponse>({
-    initialData: groupMembers,
-    queryKey: [EContentGroupQueries.FETCH_MEMBERS, EQueryType.MEMBERS, page],
-    queryFn: () => fetchGroupMembers(groupId, page),
-    enabled: contentType === EQueryType.MEMBERS && page !== 1,
-  });
+  const { isLoading: isLoadingMembers, data: membersData } =
+    useQuery<IGroupMembersResponse>({
+      initialData: groupMembers,
+      queryKey: [
+        EContentGroupQueries.FETCH_MEMBERS,
+        EQueryType.MEMBERS,
+        page,
+        groupId,
+      ],
+      queryFn: () => fetchGroupMembers(groupId, page),
+      enabled: contentType === EQueryType.MEMBERS && page !== 1,
+    });
 
-  const { isPending, mutateAsync: removeMemberAsync } = useMutation({
+  const { mutateAsync: removeMemberAsync } = useMutation({
     mutationKey: [EContentGroupQueries.DELETE_MEMBER],
     mutationFn: ({
       groupId,
@@ -195,12 +200,11 @@ const GroupContent: React.FC<IGroupContentWrapperProps> = ({
   };
 
   useEffect(() => {
-    setPage(1);
     queryClient.setQueryData(
       [updateContentQueryKey(contentType), contentType, 1],
       contentType === EQueryType.MEMBERS ? groupMembers : groupContent
     );
-  }, [contentType]);
+  }, [contentType, groupContent, groupMembers, queryClient]);
 
   const renderContent = () => {
     let styles;

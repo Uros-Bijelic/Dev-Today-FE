@@ -72,9 +72,9 @@ const MemberItemCard: React.FC<IMemberItemCardProps> = ({
   };
 
   return (
-    <li className="flex-between bg-light100__dark800 rounded-xl p-5 shadow-card">
+    <li className="flex-between bg-light100__dark800 shadow-card rounded-xl p-5">
       <div className="flex items-center gap-1.5">
-        <div className="flex-center size-[30px] shrink-0 rounded-full bg-white-600">
+        <div className="flex-center bg-white-600 size-[30px] shrink-0 rounded-full">
           <Image
             src={avatarImg || '/assets/images/avatars/avatar-1.svg'}
             width={22}
@@ -106,7 +106,7 @@ const MemberItemCard: React.FC<IMemberItemCardProps> = ({
               sideOffset={8}
               align="end"
               onCloseAutoFocus={(e) => e.preventDefault()}
-              className="bg-light200__dark700 shadow-header-menu w-42 z-20 mb-4 flex flex-col gap-2.5 rounded-[10px] px-5 py-4 data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade data-[side=right]:animate-slideLeftAndFade data-[side=top]:animate-slideDownAndFade "
+              className="bg-light200__dark700 shadow-header-menu data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade data-[side=right]:animate-slideLeftAndFade data-[side=top]:animate-slideDownAndFade z-20 mb-4 flex w-42 flex-col gap-2.5 rounded-[10px] px-5 py-4 "
             >
               <Item
                 onSelect={
@@ -122,7 +122,7 @@ const MemberItemCard: React.FC<IMemberItemCardProps> = ({
               </Item>
               <Item
                 onSelect={handleRemoveMember}
-                className="dropdown-item !text-error-text"
+                className="dropdown-item text-error-text!"
               >
                 Remove User
               </Item>

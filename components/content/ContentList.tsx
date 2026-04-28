@@ -37,7 +37,14 @@ const ContentList: React.FC<IContentListProps> = ({
   const [page, setPage] = useState(1);
 
   const { isLoading, data } = useQuery<IContentPagesResponse>({
-    queryKey: [updateContentQueryKey(contentType), contentType, page],
+    queryKey: [
+      updateContentQueryKey(contentType),
+      contentType,
+      page,
+      viewerId,
+      sortBy,
+      selectedTag,
+    ],
     queryFn: () =>
       fetchAllContents(contentType, page, viewerId, 4, sortBy, selectedTag),
     initialData: contentData,
@@ -100,7 +107,7 @@ const ContentList: React.FC<IContentListProps> = ({
       [updateContentQueryKey(contentType), contentType, 1],
       contentData
     );
-  }, [sortBy, selectedTag]);
+  }, [sortBy, selectedTag, queryClient, contentType, contentData]);
 
   const renderContent = () => {
     let styles;

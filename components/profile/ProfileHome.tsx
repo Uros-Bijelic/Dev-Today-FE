@@ -37,8 +37,8 @@ const ProfileHome: React.FC<IProfileHomeProps> = ({
 }) => {
   return (
     <div className="content-wrapper">
-      <aside className="left-sidebar bg-light100__dark800 shadow-card rounded-2xl !p-0 !pb-10 text-center">
-        <div className="profile-background relative h-[106px] rounded-t-2xl lg:h-[83px]">
+      <aside className="left-sidebar bg-light100__dark800 shadow-card rounded-2xl p-0! pb-10! text-center">
+        <div className="profile-background relative h-26.5 rounded-t-2xl lg:h-20.75">
           <Image
             fill
             src="/assets/images/profile-background.svg"
@@ -48,17 +48,17 @@ const ProfileHome: React.FC<IProfileHomeProps> = ({
         </div>
         <div className="flex flex-col gap-y-6 px-5">
           <div className="relative z-10 -mt-20">
-            <div className="bg-white-100 dark:bg-black-800 mx-auto mb-2.5 size-[110px] rounded-full">
+            <div className="bg-white-100 dark:bg-black-800 mx-auto mb-2.5 size-27.5 rounded-full">
               {user.avatarImg ? (
                 <Image
                   src={user.avatarImg || '/assets/images/avatars/avatar-1.svg'}
                   width={110}
                   height={110}
                   alt={user.userName}
-                  className="ring-primary-500 mx-auto mb-2.5 size-[110px] rounded-full object-cover ring-4"
+                  className="ring-primary-500 mx-auto mb-2.5 size-27.5 rounded-full object-cover ring-4"
                 />
               ) : (
-                <div className="flex-center ring-primary-500 mx-auto mb-2.5 size-[110px] rounded-full ring-4">
+                <div className="flex-center ring-primary-500 mx-auto mb-2.5 size-27.5 rounded-full ring-4">
                   <Image
                     src={
                       user.avatarImg || '/assets/images/avatars/avatar-1.svg'
@@ -66,7 +66,7 @@ const ProfileHome: React.FC<IProfileHomeProps> = ({
                     width={80}
                     height={80}
                     alt={user.userName}
-                    className="size-[80px] object-cover"
+                    className="size-20 object-cover"
                   />
                 </div>
               )}
@@ -80,7 +80,7 @@ const ProfileHome: React.FC<IProfileHomeProps> = ({
             isPersonalProfile={isPersonalProfile}
             isFollowing={isFollowing}
           />
-          <div className="flex justify-center gap-[7px] gap-y-0 sm:flex-col">
+          <div className="flex justify-center gap-1.75 gap-y-0 sm:flex-col">
             <p className="p3-medium text-white-400 dark:text-white-300">
               {user?._count?.followers} Followers
             </p>
@@ -135,19 +135,6 @@ const ProfileHome: React.FC<IProfileHomeProps> = ({
         <div className="max-xl:hidden">
           <SidebarContentCard title="Recent Posts" items={user?.contents} />
         </div>
-        {/* <div className="right-sidebar-item">
-          <div>
-            <p className="p2-bold">Performance</p>
-            <p className="p3-regular">The best posts from the last 30 days</p>
-          </div>
-          <ul className="flex flex-col gap-5">
-            <PerformanceItem />
-            <PerformanceItem />
-            <PerformanceItem />
-            <PerformanceItem />
-            <PerformanceItem />
-          </ul>
-        </div> */}
       </aside>
     </div>
   );

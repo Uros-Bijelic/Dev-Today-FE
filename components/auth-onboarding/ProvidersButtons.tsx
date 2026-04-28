@@ -21,7 +21,7 @@ const ProvidersButtons: React.FC<IProvidersButtonsProps> = ({
         type="submit"
         size="medium"
         variant="primary"
-        className="p2-bold !text-white-100"
+        className="p2-bold text-white-100!"
       >
         Next
       </Button>

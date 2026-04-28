@@ -19,7 +19,7 @@ const Pagination: React.FC<IPaginationProps> = ({
     <div className="flex-center">
       <div className="flex">
         <Button
-          className="rounded-[5px] bg-white-100 px-3.5 py-2.5 shadow-card dark:bg-black-800"
+          className="bg-white-100 shadow-card dark:bg-black-800 rounded-[5px] px-3.5 py-2.5"
           onClick={() => setPage((prevPage) => prevPage - 1)}
           disabled={disablePrevBtn}
         >
@@ -31,7 +31,7 @@ const Pagination: React.FC<IPaginationProps> = ({
           </span>
         </div>
         <Button
-          className="rounded-[5px] bg-white-100 px-3.5 py-2.5 shadow-card dark:bg-black-800"
+          className="bg-white-100 shadow-card dark:bg-black-800 rounded-[5px] px-3.5 py-2.5"
           onClick={() => {
             setPage((prevPage) => prevPage + 1);
           }}

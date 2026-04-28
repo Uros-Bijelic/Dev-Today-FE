@@ -23,8 +23,8 @@ const GroupLeaveOrDeleteDialog: React.FC<IGroupLeaveOrDeleteDialogProps> = ({
     <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
       {/* <Dialog.Trigger asChild></Dialog.Trigger> */}
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 backdrop-blur-md data-[state=open]:animate-overlayShow" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 flex max-h-[85vh] w-[450px] -translate-x-1/2 -translate-y-1/2 flex-col gap-[30px] rounded-[10px] bg-white-100 p-[30px] focus:outline-none data-[state=open]:animate-contentShow dark:bg-black-900 lg:w-[520px] lg:rounded-2xl">
+        <Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 backdrop-blur-md" />
+        <Dialog.Content className="bg-white-100 data-[state=open]:animate-contentShow dark:bg-black-900 fixed top-1/2 left-1/2 flex max-h-[85vh] w-112.5 -translate-x-1/2 -translate-y-1/2 flex-col gap-7.5 rounded-[10px] p-7.5 focus:outline-none lg:w-130 lg:rounded-2xl">
           <p className="p1-medium">
             {isDeleteDialog
               ? 'Are you sure you want to delete this group?'

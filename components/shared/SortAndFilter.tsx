@@ -72,13 +72,13 @@ const SortAndFilter: React.FC<ISortAndFilterProps> = ({
         ) : (
           <Link
             href={pathname + '?' + handleUpdateFilter(ESortByFilter.FOLLOWING)}
-            className={`flex-between cursor-pointer rounded-md px-[5px] py-1 transition-colors hover:bg-[#F8FAFC] hover:dark:bg-black-700 md:py-1.5 ${sortBy === ESortByFilter.FOLLOWING ? activeClassName : ''}`}
+            className={`flex-between hover:dark:bg-black-700 cursor-pointer rounded-md px-[5px] py-1 transition-colors hover:bg-[#F8FAFC] md:py-1.5 ${sortBy === ESortByFilter.FOLLOWING ? activeClassName : ''}`}
           >
             <div className="flex items-center gap-2.5">
               <FollowIcon className="text-white-200 dark:text-black-700" />
               <p className="p4-medium">Following</p>
             </div>
-            <div className="flex-center rounded bg-primary-500 px-1.5 py-[3px] text-[9px] font-semibold text-white-100 max-md:hidden">
+            <div className="flex-center bg-primary-500 text-white-100 rounded px-1.5 py-[3px] text-[9px] font-semibold max-md:hidden">
               {followingCount}
             </div>
           </Link>

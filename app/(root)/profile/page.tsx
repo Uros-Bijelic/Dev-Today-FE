@@ -21,7 +21,6 @@ const MyProfilePage: React.FC<IMyProfilePageProps> = async ({
 }) => {
   const reslovedParams = await searchParams;
 
-  // const page = parseSearchParams(searchParams.page, '1');
   const contentType = parseSearchParams<EQueryType>(
     reslovedParams.type,
     EQueryType.POST
@@ -37,8 +36,16 @@ const MyProfilePage: React.FC<IMyProfilePageProps> = async ({
 
   if (!userResponse) throw new Error('User data not available!');
 
-  let content = {};
-  let groups = {};
+  let content: IProfilePageContentResponse = {
+    contents: [],
+    hasNextPage: false,
+    totalPages: 1,
+  };
+  let groups: IProfilePageGroupsResponse = {
+    groups: [],
+    hasNextPage: false,
+    totalPages: 1,
+  };
   if (contentType === EQueryType.GROUP) {
     groups = await typedFetch<IProfilePageGroupsResponse>({
       url: `/user/${session.user.id}/groups`,

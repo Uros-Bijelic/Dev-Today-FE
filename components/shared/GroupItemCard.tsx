@@ -29,21 +29,20 @@ const GroupItemCard: React.FC<IGroupItemCardProps> = ({
 }) => {
   return (
     <li>
-      <Link
-        href={'/groups/' + id}
-        className="bg-light100__dark800 shadow-card flex flex-0 shrink-0 flex-col gap-3.5 rounded-2xl p-5"
-      >
-        <div className="relative h-37.5 w-full">
-          <Image
-            src={coverImage || '/assets/icons/image-preview.svg'}
-            fill
-            alt={title}
-            className="w-full rounded-2xl object-cover"
-          />
-        </div>
-        <p className="p1-bold">{title}</p>
-        <p className="p3-regular line-clamp-3">{description}</p>
-        <div className="flex-between">
+      <div className="bg-light100__dark800 shadow-card flex flex-0 shrink-0 flex-col gap-3.5 rounded-2xl p-5">
+        <Link href={'/groups/' + id} className="contents">
+          <div className="relative h-37.5 w-full">
+            <Image
+              src={coverImage || '/assets/icons/image-preview.svg'}
+              fill
+              alt={title}
+              className="w-full rounded-2xl object-cover"
+            />
+          </div>
+          <p className="p1-bold">{title}</p>
+          <p className="p3-regular line-clamp-3">{description}</p>
+        </Link>
+        <div className="flex-between" onClick={(e) => e.stopPropagation()}>
           <div className="ml-3 flex">
             {members.map((member, index) => (
               <div
@@ -71,7 +70,7 @@ const GroupItemCard: React.FC<IGroupItemCardProps> = ({
             btnStyles="w-auto hover:rounded-full"
           />
         </div>
-      </Link>
+      </div>
     </li>
   );
 };

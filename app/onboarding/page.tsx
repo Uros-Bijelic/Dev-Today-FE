@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
@@ -27,6 +27,7 @@ import {
   PREFERRED_SKILLS,
 } from '@/constants';
 import { type IOnboardingSchema, onboardingSchema } from '@/lib/validation';
+import LoadingSpinner from '@/components/shared/Loaders/LoadingSpinner';
 
 // ----------------------------------------------------------------
 
@@ -34,7 +35,6 @@ const BASE_API_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
 const OnboardingPage = () => {
   const { resolvedTheme } = useTheme();
-  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
   const [step, setStep] = useState(1);
   const { data: session } = useSession();
@@ -49,6 +49,10 @@ const OnboardingPage = () => {
       preferredSkills: [],
     },
   });
+
+  if (!resolvedTheme) {
+    return null;
+  }
 
   const goNext = async () => {
     if (step === 1) {
@@ -101,34 +105,33 @@ const OnboardingPage = () => {
       } else {
         toast.error('Error while updating user onboarding');
       }
-    } catch (error) {
+    } catch (err) {
       toast.error('Error while updating user onboarding');
     }
   };
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  if (form.formState.isSubmitting || form.formState.isSubmitted) {
+    return <LoadingSpinner asLayout />;
+  }
 
   return (
     <div className="auth-onboarding-page-wrapper">
       <LeftSidebar
         title={generateOnboardingStepData(step).title}
         listItems={generateOnboardingStepData(step).listItems}
-        isMounted={isMounted}
         theme={resolvedTheme}
       />
       <div className="auth-onboarding-right-sidebar gap-10">
         <div className="flex w-full max-w-md flex-col gap-10">
           <div className="mx-auto md:hidden">
-            <ThemeLogo theme={resolvedTheme} isMounted={isMounted} />
+            <ThemeLogo theme={resolvedTheme} />
           </div>
           <h1 className="d1-bold">
             {step === 1 &&
               'Which best describes your current programming journey?'}
             {step === 2 && 'Define your coding ambitions.'}
             {step === 3 &&
-              'Which best describes your current programming journey?'}
+              'Select the skills that best match your current programming experience.'}
           </h1>
           <Form {...form}>
             <form>
@@ -154,10 +157,10 @@ const OnboardingPage = () => {
                               </FormControl>
                               <FormLabel
                                 key={item.value}
-                                className={`p1-medium !mt-0 flex h-14 w-full cursor-pointer items-center rounded px-4 transition-transform hover:-translate-y-1
+                                className={`p1-medium mt-0! flex h-14 w-full cursor-pointer items-center rounded px-4 transition-transform hover:-translate-y-1
                               ${
                                 item.value === field.value
-                                  ? 'bg-primary-500 !text-white-100'
+                                  ? 'bg-primary-500 text-white-100!'
                                   : 'bg-white-100 dark:bg-black-800'
                               }`}
                               >
@@ -204,10 +207,10 @@ const OnboardingPage = () => {
                                   />
                                 </FormControl>
                                 <FormLabel
-                                  className={`p1-medium !mt-0 flex h-14 w-full cursor-pointer items-center justify-start rounded border-none px-4 transition-transform hover:-translate-y-1
+                                  className={`p1-medium mt-0! flex h-14 w-full cursor-pointer items-center justify-start rounded border-none px-4 transition-transform hover:-translate-y-1
                               ${
                                 field.value.includes(item.value)
-                                  ? 'bg-primary-500 !text-white-100'
+                                  ? 'bg-primary-500 text-white-100!'
                                   : 'bg-white-100 dark:bg-black-800'
                               }`}
                                 >
@@ -255,9 +258,9 @@ const OnboardingPage = () => {
                                   />
                                 </FormControl>
                                 <FormLabel
-                                  className={`p3-medium !mt-0 flex h-14 cursor-pointer items-center rounded-lg !px-5 transition-transform hover:scale-[0.9] ${
+                                  className={`p3-medium mt-0! flex h-14 cursor-pointer items-center rounded-lg px-5! transition-transform hover:scale-[0.9] ${
                                     field.value.includes(item.title)
-                                      ? 'bg-primary-500 !text-white-100'
+                                      ? 'bg-primary-500 text-white-100!'
                                       : 'bg-white-100 dark:bg-black-800'
                                   } `}
                                 >
@@ -276,7 +279,7 @@ const OnboardingPage = () => {
             <Button
               onClick={goNext}
               variant="primary"
-              className="p2-bold bg-primary-500 !text-white-100 h-11 w-full"
+              className="p2-bold bg-primary-500 text-white-100! h-11 w-full"
             >
               {step === 2 ? 'Get Started' : 'Next'}
             </Button>

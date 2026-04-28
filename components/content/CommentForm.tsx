@@ -88,7 +88,7 @@ const CommentForm: React.FC<ICommentProps> = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="bg-light100__dark800 mt-4 !w-full space-y-4 rounded-lg p-3 shadow-2xl md:p-6">
+        <div className="bg-light100__dark800 mt-4 w-full! space-y-4 rounded-lg p-3 shadow-2xl md:p-6">
           <div className="flex-between">
             <div className="flex items-center gap-2">
               <Image
@@ -101,20 +101,20 @@ const CommentForm: React.FC<ICommentProps> = ({
                 className="size-7 rounded-full"
               />
               <div className="flex items-center gap-2">
-                <h4 className="p3-bold !mb-0 !text-[12px] !font-semibold  tracking-wide md:mb-2 md:font-bold lg:!text-[12px]">
+                <h4 className="p3-bold mb-0! text-[12px]! font-semibold!  tracking-wide md:mb-2 md:font-bold lg:text-[12px]!">
                   {session?.user.name}
                 </h4>
-                <span className="text-[10px] text-white-400 md:text-[12px] ">
+                <span className="text-white-400 text-[10px] md:text-[12px] ">
                   {formatDate(comment.createdAt)}
                 </span>
-                <span className="text-[10px] text-white-400 md:text-[12px] ">
+                <span className="text-white-400 text-[10px] md:text-[12px] ">
                   {formatDate(comment.updatedAt)}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="!mt-5 flex-col space-y-4 md:mt-0">
+          <div className="mt-5! flex-col space-y-4 md:mt-0">
             <RHFInput
               name="text"
               onChange={(e) => form.setValue('text', e.target.value)}
@@ -133,14 +133,14 @@ const CommentForm: React.FC<ICommentProps> = ({
                       setOpenReply(false);
                     }
                   }}
-                  className="p3-medium w-[80px] capitalize !text-white-400"
+                  className="p3-medium text-white-400! w-20 capitalize"
                 >
                   Cancel
                 </Button>
                 <span className="text-white-400 ">|</span>
                 <Button
                   type="submit"
-                  className="p3-medium w-[80px] capitalize !text-primary-500"
+                  className="p3-medium text-primary-500! w-20 capitalize"
                 >
                   {isEdit ? 'Save' : 'Reply'}
                 </Button>
