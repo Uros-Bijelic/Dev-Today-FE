@@ -109,10 +109,10 @@ const Comments: React.FC<ICommentsProps> = ({
   };
 
   return (
-    <div className="!mt-20 max-w-[825px] space-y-5">
+    <div className="mt-20! max-w-206.25 space-y-5">
       <h2 className="h1-medium">Comments</h2>
       <div className="flex items-center gap-3">
-        <div className="rounded-full bg-white-100 p-1 px-2">
+        <div className="bg-white-100 rounded-full p-1 px-2">
           <Image
             src="/assets/images/avatars/avatar-1.svg"
             width={32}
@@ -168,15 +168,15 @@ const Comments: React.FC<ICommentsProps> = ({
                         className="size-7 rounded-full object-cover"
                       />
                       <div className="ml-1 flex h-6 flex-col items-start sm:ml-0 md:flex-row md:items-center md:gap-2">
-                        <h4 className="p3-bold !text-[12px] !font-semibold tracking-wide sm:!text-[14px] md:mb-2 md:font-bold">
+                        <h4 className="p3-bold text-[12px]! font-semibold! tracking-wide sm:text-[14px]! md:mb-2 md:font-bold">
                           {comment.author.userName}
                         </h4>
                         <div className="text-[8px] sm:text-[10px] lg:text-[12px]">
-                          <span className="relative bottom-1 text-white-400">
+                          <span className="text-white-400 relative bottom-1">
                             {formatDate(comment.createdAt)}
                           </span>
-                          <span className="relative bottom-1 size-1 rounded-full bg-white-400"></span>
-                          <span className="relative bottom-1 text-white-400">
+                          <span className="bg-white-400 relative bottom-1 size-1 rounded-full"></span>
+                          <span className="text-white-400 relative bottom-1">
                             {formatDate(comment.updatedAt)}
                           </span>
                         </div>
@@ -195,7 +195,7 @@ const Comments: React.FC<ICommentsProps> = ({
                         alt="avatar"
                         className="rounded-full invert"
                       />
-                      <p className="text-[10px] text-white-400">Reply</p>
+                      <p className="text-white-400 text-[10px]">Reply</p>
                     </div>
                     <Image
                       onClick={() => handleLike(comment.id)}
@@ -228,7 +228,7 @@ const Comments: React.FC<ICommentsProps> = ({
                             sideOffset={8}
                             align="end"
                             onCloseAutoFocus={(e) => e.preventDefault()}
-                            className="bg-light200__dark700 shadow-header-menu z-20 mb-4 flex w-40 flex-col gap-2.5 rounded-[10px] px-5 py-4 data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade data-[side=right]:animate-slideLeftAndFade data-[side=top]:animate-slideDownAndFade"
+                            className="bg-light200__dark700 shadow-header-menu data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade data-[side=right]:animate-slideLeftAndFade data-[side=top]:animate-slideDownAndFade z-20 mb-4 flex w-40 flex-col gap-2.5 rounded-[10px] px-5 py-4"
                           >
                             <Item
                               onClick={() => setEditComment(comment.id)}
@@ -240,7 +240,7 @@ const Comments: React.FC<ICommentsProps> = ({
                             <Item
                               onClick={() => handleDeleteComment(comment.id)}
                               onSelect={(e) => e.preventDefault()}
-                              className="p2-medium flex cursor-pointer items-center gap-2.5 !text-error-text"
+                              className="p2-medium text-error-text! flex cursor-pointer items-center gap-2.5"
                             >
                               <Image
                                 src="/assets/icons/trash.svg"
@@ -257,11 +257,11 @@ const Comments: React.FC<ICommentsProps> = ({
                   </div>
                 </div>
 
-                <p className="p2-regular !ml-3 !mt-3 !text-[12px] !font-semibold !text-white-400 md:!mt-1 md:!text-[14px]">
+                <p className="p2-regular text-white-400! mt-3! ml-3! text-[12px]! font-semibold! md:mt-1! md:text-[14px]!">
                   {comment.text.charAt(0).toUpperCase() + comment.text.slice(1)}
                 </p>
                 {comment.replies && comment.replies.length > 0 && (
-                  <div className="overflow-wrap break-word !mt-0 !w-full space-y-2 overflow-hidden text-wrap break-words rounded-lg p-2 text-[11px]">
+                  <div className="overflow-wrap break-word mt-0! w-full! space-y-2 overflow-hidden rounded-lg p-2 text-[11px] text-wrap break-words">
                     {comment.replies.map((reply) => (
                       <div key={reply.id + '-' + reply.authorId}>
                         <div className="flex items-center">
@@ -283,7 +283,7 @@ const Comments: React.FC<ICommentsProps> = ({
                             </p>
                           </div>
                         </div>
-                        <p className="ml-7 font-semibold text-white-400">
+                        <p className="text-white-400 ml-7 font-semibold">
                           {reply.text.charAt(0).toUpperCase() +
                             reply.text.slice(1)}
                         </p>

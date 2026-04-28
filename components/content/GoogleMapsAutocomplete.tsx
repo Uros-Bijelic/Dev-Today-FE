@@ -154,9 +154,9 @@ const GoogleMapsAutocomplete: React.FC<IGoogleMapAutocompleteProps> = ({
         reuseMaps
       >
         <MapControl position={ControlPosition.RIGHT_BOTTOM}>
-          <div className="mb-1 mr-2 flex flex-col gap-y-1">
+          <div className="mr-2 mb-1 flex flex-col gap-y-1">
             <Button
-              className="p1-medium rounded border border-white-border bg-white-100 px-3 py-0.5 text-black-700 transition duration-300 ease-in-out hover:bg-primary-500 hover:text-white-200 dark:border-black-800 dark:bg-black-700 dark:text-white-200 hover:dark:bg-primary-500"
+              className="p1-medium border-white-border bg-white-100 text-black-700 hover:bg-primary-500 hover:text-white-200 dark:border-black-800 dark:bg-black-700 dark:text-white-200 hover:dark:bg-primary-500 rounded border px-3 py-0.5 transition duration-300 ease-in-out"
               type="button"
               onClick={() => setZoom((prevZoom) => prevZoom + 1)}
             >
@@ -164,7 +164,7 @@ const GoogleMapsAutocomplete: React.FC<IGoogleMapAutocompleteProps> = ({
             </Button>
             <Button
               type="button"
-              className="p1-medium rounded border border-white-border bg-white-100 px-3 py-0.5 text-black-700 transition duration-300 ease-in-out hover:bg-primary-500 hover:text-white-200 dark:border-black-800 dark:bg-black-700 dark:text-white-200 hover:dark:bg-primary-500"
+              className="p1-medium border-white-border bg-white-100 text-black-700 hover:bg-primary-500 hover:text-white-200 dark:border-black-800 dark:bg-black-700 dark:text-white-200 hover:dark:bg-primary-500 rounded border px-3 py-0.5 transition duration-300 ease-in-out"
               onClick={() => setZoom((prevZoom) => prevZoom - 1)}
             >
               -
@@ -172,14 +172,14 @@ const GoogleMapsAutocomplete: React.FC<IGoogleMapAutocompleteProps> = ({
           </div>
         </MapControl>
         <MapControl position={ControlPosition.TOP_LEFT}>
-          <div className="absolute left-4 top-4">
+          <div className="absolute top-4 left-4">
             <input
               value={inputValue}
               onInput={(event: React.FormEvent<HTMLInputElement>) =>
                 onInputChange(event)
               }
               placeholder="Search for a place"
-              className="p3-medium dark:border-dark-border min-w-[275px] rounded border border-white-border bg-white-100 p-1.5 text-black-700 placeholder:text-white-400 dark:bg-black-800 dark:text-white-100"
+              className="p3-medium dark:border-dark-border border-white-border bg-white-100 text-black-700 placeholder:text-white-400 dark:bg-black-800 dark:text-white-100 min-w-[275px] rounded border p-1.5"
             />
 
             {predictionResults.length > 0 && (
@@ -188,7 +188,7 @@ const GoogleMapsAutocomplete: React.FC<IGoogleMapAutocompleteProps> = ({
                   return (
                     <li
                       key={place_id}
-                      className="p3-medium flex cursor-pointer gap-2 px-2 py-1 transition-colors duration-100 hover:bg-white-300 dark:hover:text-black-800"
+                      className="p3-medium hover:bg-white-300 dark:hover:text-black-800 flex cursor-pointer gap-2 px-2 py-1 transition-colors duration-100"
                       onClick={() => handleSuggestionClick(place_id)}
                     >
                       {description}

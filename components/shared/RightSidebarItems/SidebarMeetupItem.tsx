@@ -32,10 +32,10 @@ const SidebarMeetupItem: React.FC<ISidebarMeetupItemProps> = ({
         className="sidebar-item-card-hover flex items-center gap-3.5"
       >
         <div className="flex-center bg-light200__dark700 h-[66px] w-[42px] shrink-0 flex-col rounded-[6px] px-2.5 py-[5px] ">
-          <span className="subtitle-normal md:p4-regular break-keep uppercase text-black-800 dark:text-white-200">
+          <span className="subtitle-normal md:p4-regular text-black-800 dark:text-white-200 break-keep uppercase">
             {month}
           </span>
-          <span className="p2-bold md:d2-bold break-keep !text-primary-500">
+          <span className="p2-bold md:d2-bold !text-primary-500 break-keep">
             {day}
           </span>
         </div>

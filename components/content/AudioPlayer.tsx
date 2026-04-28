@@ -74,7 +74,7 @@ const AudioPlayer: React.FC<IAudioPlayerProps> = ({
             className="rounded-lg"
           />
         </div>
-        <div className="xs:size-16 absolute top-3/4 size-12 sm:left-[30px] sm:size-20 md:left-[100px] md:top-1/2 md:size-24 md:-translate-x-1/2 md:-translate-y-1/2 lg:left-[150px] lg:size-32">
+        <div className="xs:size-16 absolute top-3/4 size-12 sm:left-7.5 sm:size-20 md:top-1/2 md:left-25 md:size-24 md:-translate-x-1/2 md:-translate-y-1/2 lg:left-37.5 lg:size-32">
           <Image
             src="/assets/images/disk.svg"
             alt="avatar"
@@ -85,10 +85,10 @@ const AudioPlayer: React.FC<IAudioPlayerProps> = ({
       </div>
       <div className="w-full">
         <div className="flex flex-col">
-          <h2 className="p4-regular !overflow-wrap overflow-hidden !text-wrap !break-words !text-[10px] font-semibold md:!text-[12px]">
+          <h2 className="p4-regular !overflow-wrap overflow-hidden text-[10px]! font-semibold text-wrap! wrap-break-word! md:text-[12px]!">
             {title}
           </h2>
-          <p className="p1-bold !overflow-wrap overflow-hidden !text-wrap !break-words !text-[14px]">
+          <p className="p1-bold !overflow-wrap overflow-hidden text-[14px]! text-wrap! wrap-break-word!">
             {audioTitle}
           </p>
           <div className="mt-4 flex w-full items-center justify-between gap-1 md:gap-2">
@@ -107,18 +107,18 @@ const AudioPlayer: React.FC<IAudioPlayerProps> = ({
               src={audioSrc}
               className="absolute inset-0 opacity-0"
             ></audio>
-            <span className="!text-[10px] text-gray-600 md:text-sm dark:text-gray-400">
+            <span className="text-[10px]! text-gray-600 md:text-sm dark:text-gray-400">
               {formatTime(currentTime)}
             </span>
             <span className="text-white-400">|</span>
-            <span className="!text-[10px] text-gray-600 md:text-sm dark:text-gray-400">
+            <span className="text-[10px]! text-gray-600 md:text-sm dark:text-gray-400">
               {formatTime(duration)}
             </span>
           </div>
           <Button
             type="button"
             onClick={togglePlay}
-            className="bg-primary-500 !text-white-100 mt-4 flex w-full rounded-lg px-4 py-2 text-sm text-white duration-300 hover:bg-purple-600 md:!w-28"
+            className="bg-primary-500 text-white-100! mt-4 flex w-full rounded-lg px-4 py-2 text-sm duration-300 hover:bg-purple-600 md:w-28!"
           >
             {isPlaying ? (
               <PauseIcon />

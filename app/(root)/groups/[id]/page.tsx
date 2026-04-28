@@ -24,7 +24,6 @@ const GroupDetailsPage: React.FC<IGroupDetailsPage> = async ({
   searchParams,
 }) => {
   const id = (await params).id;
-  // const page = parseSearchParams(searchParams.page, '1');
   const contentType = parseSearchParams<EQueryType>(
     (await searchParams).type,
     EQueryType.POST

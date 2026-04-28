@@ -28,25 +28,26 @@ interface IShareOnSocialNetworkDialogProps {
 const ShareOnSocialNetworkDialog: React.FC<
   IShareOnSocialNetworkDialogProps
 > = ({ btnText, customUrl, btnStyles }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [url, setUrl] = useState('');
 
-  const url =
-    typeof window !== 'undefined'
-      ? customUrl
-        ? window.location.origin + customUrl
-        : window.location.href
-      : '';
+  const handleOpenChange = (open: boolean) => {
+    if (open) {
+      setUrl(
+        customUrl ? window.location.origin + customUrl : window.location.href
+      );
+    }
+  };
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog.Root onOpenChange={handleOpenChange}>
       <Dialog.Trigger asChild>
         <Button
           size="large"
-          className={cn(`flex-center bg-white-100 shadow-card hover:bg-white-400/30 dark:bg-black-800 hover:dark:bg-black-700 cursor-pointer gap-2 
-              rounded py-2 transition-colors px-2 ${btnStyles}`)}
+          className={cn(
+            `flex-center bg-white-100 shadow-card hover:bg-white-400/30 dark:bg-black-800 hover:dark:bg-black-700 cursor-pointer gap-2 rounded py-2 transition-colors px-2 ${btnStyles}`
+          )}
           onClick={(e) => {
             e.stopPropagation();
-            e.nativeEvent.preventDefault();
           }}
         >
           {btnText}
@@ -54,21 +55,21 @@ const ShareOnSocialNetworkDialog: React.FC<
         </Button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 backdrop-blur-md" />
-        <Dialog.Content
-          className="bg-white-100 shadow-card data-[state=open]:animate-contentShow dark:bg-black-900 fixed top-1/2 left-1/2 flex max-h-[85vh] w-[354px] -translate-x-1/2 -translate-y-1/2 flex-col gap-6 rounded-[10px] px-3.5 py-[30px] focus:outline-none md:gap-[30px] md:px-10 md:py-9 lg:w-[520px] lg:rounded-2xl"
-          onClick={(e) => {
-            e.stopPropagation();
-            e.nativeEvent.preventDefault();
-          }}
-        >
+        <Dialog.Overlay className="data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 fixed inset-0 backdrop-blur-md" />
+        <Dialog.Content className="bg-white-100 shadow-card dark:bg-black-900 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 fixed top-1/2 left-1/2 z-50 flex max-h-[85vh] w-88.5 -translate-x-1/2 -translate-y-1/2 flex-col gap-6 rounded-[10px] px-3.5 py-7.5 focus:outline-none md:gap-7.5 md:px-10 md:py-9 lg:w-130 lg:rounded-2xl">
           <VisuallyHidden.Root>
             <Dialog.Title></Dialog.Title>
           </VisuallyHidden.Root>
           <div className="flex-between">
             <h1 className="h1-medium">Share with</h1>
             <Dialog.Close asChild>
-              <CloseIcon className="text-black-800 dark:text-white-200 cursor-pointer" />
+              <button
+                type="button"
+                aria-label="Close share dialog"
+                className="cursor-pointer"
+              >
+                <CloseIcon className="text-black-800 dark:text-white-200" />
+              </button>
             </Dialog.Close>
           </div>
           <div className="flex items-center justify-center gap-2.5">

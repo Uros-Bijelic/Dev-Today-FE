@@ -46,13 +46,11 @@ const GroupsHome: React.FC<IGroupsHomeProps> = ({
   });
 
   useEffect(() => {
-    setPage(1);
-
     queryClient.setQueryData(
       [EContentGroupQueries.FETCH_GROUPS, 1],
       groupsData
     );
-  }, [sortBy]);
+  }, [groupsData, queryClient, sortBy]);
 
   return (
     <section className="px-3.5 lg:px-5">

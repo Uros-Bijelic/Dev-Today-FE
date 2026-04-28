@@ -67,7 +67,7 @@ const ProfileSidebarInfo: React.FC<IProfileSidebarInfoProps> = ({
       {isPersonalProfile ? (
         <Link
           href={pathname + '/edit'}
-          className="inline-flex w-full items-center justify-center gap-2.5 rounded-lg border border-primary-500 bg-primary-500 py-3 text-sm font-bold text-white-100 outline-none transition-colors"
+          className="border-primary-500 bg-primary-500 text-white-100 inline-flex w-full items-center justify-center gap-2.5 rounded-lg border py-3 text-sm font-bold transition-colors outline-none"
         >
           Edit Profile
         </Link>

@@ -36,9 +36,9 @@ const PreviewContent: React.FC<IPreviewContentProps> = ({
           alt="Preview"
           width={20}
           height={20}
-          className="size-[20px]"
+          className="size-5"
         />
-        <h4 className="!text-primary-500 font-semibold">Preview</h4>
+        <h4 className="text-primary-500! font-semibold">Preview</h4>
       </div>
       {type === EContentType.PODCAST && (
         <AudioPlayer
@@ -64,19 +64,19 @@ const PreviewContent: React.FC<IPreviewContentProps> = ({
             alt="avatar"
             width={72}
             height={72}
-            className="size-[72px] rounded-md"
+            className="size-18 rounded-md"
           />
         )}
         <h2 className="d2-bold">{data.title}</h2>
       </div>
       <div>
         <ul className="flex gap-2">
-          {data?.tags?.map(({ label, value }) => (
+          {data?.tags?.map(({ value }) => (
             <BadgeItem key={value} title={value} />
           ))}
         </ul>
       </div>
-      <div className="break-words">
+      <div className="wrap-break-word">
         <HtmlParser data={data?.description} />
       </div>
 

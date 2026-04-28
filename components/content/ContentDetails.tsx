@@ -66,7 +66,6 @@ const ContentDetails: React.FC<IContentDetailsProps> = ({
       revalidateRoute(route);
       router.push(route);
     } catch (error) {
-      console.log('Error deleting content FE', error);
       toast.error('Something went wrong');
     }
   };
@@ -121,13 +120,13 @@ const ContentDetails: React.FC<IContentDetailsProps> = ({
                 alt={author.userName}
                 width={72}
                 height={72}
-                className="size-[72px] rounded-md"
+                className="size-18 rounded-md"
               />
               <h2 className="d2-bold">{content?.title}</h2>
             </div>
           )}
           {content?.type !== EContentType.MEETUP && (
-            <h2 className="d2-bold overflow-wrap overflow-hidden text-wrap break-words">
+            <h2 className="d2-bold overflow-wrap overflow-hidden text-wrap wrap-break-word">
               {content.title}
             </h2>
           )}
@@ -162,7 +161,7 @@ const ContentDetails: React.FC<IContentDetailsProps> = ({
                   <Item
                     onSelect={(e) => e.preventDefault()}
                     onClick={handleDeleteContent}
-                    className="dropdown-item !text-error-text "
+                    className="dropdown-item text-error-text!"
                   >
                     <Image
                       src="/assets/icons/trash.svg"
@@ -182,7 +181,7 @@ const ContentDetails: React.FC<IContentDetailsProps> = ({
             <BadgeItem key={id} title={title} />
           ))}
         </ul>
-        <div className="break-words">
+        <div className="wrap-break-word">
           <HtmlParser data={content?.description} />
         </div>
         {content.type === EContentType.MEETUP && (

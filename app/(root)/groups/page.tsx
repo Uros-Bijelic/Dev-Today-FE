@@ -43,6 +43,7 @@ const GroupsPage: React.FC<IGroupsPage> = async ({ searchParams }) => {
       sortBy={sortBy}
       sidebarDetails={sidbarDetails}
       viewerId={session.user.id}
+      key={sortBy}
     />
   );
 };

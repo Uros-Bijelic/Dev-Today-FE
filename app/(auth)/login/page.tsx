@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import LeftSidebar from '@/components/auth-onboarding/LeftSidebar';
@@ -14,12 +13,12 @@ import ThemeLogo from '@/components/shared/ThemeLogo';
 import { Form } from '@/components/ui/form';
 import { SIGN_IN_SIDEBAR_DATA } from '@/constants';
 import { type ILoginSchema, loginSchema } from '@/lib/validation';
+import LoadingSpinner from '@/components/shared/Loaders/LoadingSpinner';
 
 // ----------------------------------------------------------------
 
 const LoginPage = () => {
   const { resolvedTheme } = useTheme();
-  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
   const form = useForm<ILoginSchema>({
@@ -44,21 +43,20 @@ const LoginPage = () => {
     }
   };
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  if (form.formState.isSubmitting || form.formState.isSubmitted) {
+    return <LoadingSpinner asLayout />;
+  }
 
   return (
     <div className="auth-onboarding-page-wrapper">
       <LeftSidebar
         title={SIGN_IN_SIDEBAR_DATA.title}
         listItems={SIGN_IN_SIDEBAR_DATA.listItems}
-        isMounted={isMounted}
         theme={resolvedTheme}
       />
       <div className="auth-onboarding-right-sidebar ">
         <div className="mx-auto mb-14 md:hidden">
-          <ThemeLogo isMounted={isMounted} theme={resolvedTheme} />
+          <ThemeLogo theme={resolvedTheme} />
         </div>
         <p className="mb-4 text-green-500">
           Demo account: test@test.com pw: 123123

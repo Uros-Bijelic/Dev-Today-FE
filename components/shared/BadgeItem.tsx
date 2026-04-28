@@ -11,7 +11,7 @@ const BadgeItem: React.FC<IBadgeItemProps> = ({
 }) => {
   return (
     <li
-      className={`cap-8 md:cap-10 bg-white-200 px-2.5 py-1 text-white-400 dark:bg-black-700 dark:text-white-300 ${isTechStackItem ? 'subtitle-normal rounded capitalize' : 'cap-10 rounded-[20px] uppercase'} `}
+      className={`cap-8 md:cap-10 bg-white-200 text-white-400 dark:bg-black-700 dark:text-white-300 px-2.5 py-1 ${isTechStackItem ? 'subtitle-normal rounded capitalize' : 'cap-10 rounded-[20px] uppercase'} `}
     >
       {title}
     </li>

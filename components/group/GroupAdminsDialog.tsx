@@ -8,11 +8,12 @@ import { Button } from '../ui/button';
 
 import * as Dialog from '@radix-ui/react-dialog';
 import { useQuery } from '@tanstack/react-query';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
+import { VisuallyHidden } from 'radix-ui';
 
 import { EContentGroupQueries } from '@/constants/react-query';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
-import type { IGroupMember, IGroupMembersResponse } from '@/types/group';
+import type { IGroupMembersResponse } from '@/types/group';
 import { EUserRole } from '@/types/user';
 import { fetchGroupMembers } from '@/utils/queries';
 
@@ -23,7 +24,6 @@ interface IGroupAdminsDialogProps {
 }
 
 const GroupAdminsDialog: React.FC<IGroupAdminsDialogProps> = ({ groupId }) => {
-  const [admins, setAdmins] = useState<IGroupMember[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
 
@@ -43,30 +43,27 @@ const GroupAdminsDialog: React.FC<IGroupAdminsDialogProps> = ({ groupId }) => {
     shouldFetch: data?.hasNextPage || data?.members?.length === 5,
   });
 
-  // ? add data or data.members to deps array??!?!??!?!?!??!?!?!?!??!??!?!?!??!?!?
-  useEffect(() => {
-    if (data?.members) {
-      setAdmins((prevAdmins) => [...prevAdmins, ...data.members]);
-    }
-  }, [data]);
-
   return (
     <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
       <Dialog.Trigger asChild>
         <Button className="p4-regular w-auto">View All</Button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 backdrop-blur-md data-[state=open]:animate-overlayShow" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 flex max-h-[85vh] w-[354px] -translate-x-1/2 -translate-y-1/2 flex-col gap-6 rounded-[10px] bg-white-100 px-3.5 py-[30px] focus:outline-none data-[state=open]:animate-contentShow dark:bg-black-900 md:gap-[30px] md:px-10 md:py-9 lg:w-[520px] lg:rounded-2xl">
+        <Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 backdrop-blur-md" />
+        <Dialog.Content className="bg-white-100 data-[state=open]:animate-contentShow dark:bg-black-900 fixed top-1/2 left-1/2 flex max-h-[85vh] w-[354px] -translate-x-1/2 -translate-y-1/2 flex-col gap-6 rounded-[10px] px-3.5 py-[30px] focus:outline-none md:gap-[30px] md:px-10 md:py-9 lg:w-[520px] lg:rounded-2xl">
+          <VisuallyHidden.Root>
+            <Dialog.Title></Dialog.Title>
+            <Dialog.Description></Dialog.Description>
+          </VisuallyHidden.Root>
           <div className="flex-between">
             <h1 className="h1-medium">All admins</h1>
             <Dialog.Close>
-              <CloseIcon className="text-black-800 dark:text-white-200" />
+              <CloseIcon className="text-black-800 dark:text-white-200 cursor-pointer" />
             </Dialog.Close>
           </div>
-          <ul className="no-scrollbar flex max-h-[400px]  flex-col gap-2.5 overflow-scroll">
-            {admins?.length > 0 ? (
-              admins?.map(({ id, avatarImg, userName, role }) => (
+          <ul className="no-scrollbar flex max-h-100 flex-col gap-2.5 overflow-scroll">
+            {data?.members && data?.members?.length > 0 ? (
+              data?.members?.map(({ id, avatarImg, userName, role }) => (
                 <MemberItemCard
                   key={id}
                   id={id}

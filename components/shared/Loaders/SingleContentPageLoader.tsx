@@ -15,7 +15,7 @@ const SingleContentPageLoader = () => {
       <main className="main-content">
         <Skeleton className="bg-light100__dark800 shadow-card mb-5 h-[276px] rounded-[10px]" />
         <Skeleton className="bg-light100__dark800 shadow-card mb-5 h-[276px] rounded-[10px]" />
-        <Skeleton className="bg-light100__dark800 shadow-card mb-5 mt-14 h-[276px] rounded-[10px]" />
+        <Skeleton className="bg-light100__dark800 shadow-card mt-14 mb-5 h-[276px] rounded-[10px]" />
       </main>
       <RightSidebarLoader numItems={2} />
     </div>

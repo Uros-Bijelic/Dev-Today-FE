@@ -15,7 +15,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="pt-[200px]">
+    <div className="pt-50">
       <h2>{error.message}</h2>
       <button
         className="bg-white-100"

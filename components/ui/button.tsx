@@ -5,15 +5,15 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex w-full items-center justify-center gap-2.5 rounded-lg border-0 text-sm font-bold outline-none disabled:cursor-not-allowed disabled:bg-error-primary disabled:opacity-50',
+  'disabled:bg-error-primary inline-flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-lg border-0 text-sm font-bold outline-none disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       variant: {
         base: {},
         primary:
-          'border border-primary-500 bg-primary-500 py-3 text-white-100 transition-colors',
+          'border-primary-500 bg-primary-500 text-white-100 border py-3 transition-colors',
         cancel:
-          'gap-2.5 bg-white-300 py-3 text-black-700 shadow-[0px_3px_20px_0px_rgba(0,0,0,0.04)] transition-colors hover:!bg-primary-500 hover:!text-white-100 dark:bg-black-800 dark:text-white-100 dark:shadow-none',
+          'bg-white-300 text-black-700 hover:!bg-primary-500 hover:!text-white-100 dark:bg-black-800 dark:text-white-100 gap-2.5 py-3 shadow-[0px_3px_20px_0px_rgba(0,0,0,0.04)] transition-colors dark:shadow-none',
         icon: 'w-auto p-0',
         warning: 'bg-error-primary text-white-100',
       },
@@ -32,7 +32,8 @@ const buttonVariants = cva(
   }
 );
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }

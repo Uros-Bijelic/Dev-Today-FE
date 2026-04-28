@@ -54,7 +54,6 @@ const JoinOrLeaveGroupButton: React.FC<IJoinOrLeaveGroupButtonProps> = ({
       setIsOpen(false);
       toast.success('Group left successfully!');
     } catch (error) {
-      console.log('Error on group leave', error);
       toast.error("Something went wrong. Couldn't leave group.");
     }
   };

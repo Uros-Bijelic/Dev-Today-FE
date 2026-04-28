@@ -26,7 +26,7 @@ const ContentNavLinks: React.FC<IContentNavLinksProps> = ({
   };
 
   return (
-    <div className="bg-light100__dark800 flex-between mx-auto w-full rounded-lg p-3.5 shadow-card">
+    <div className="bg-light100__dark800 flex-between shadow-card mx-auto w-full rounded-lg p-3.5">
       <Link
         href={pathname + '?' + updateQueryParams(EQueryType.POST)}
         className={`nav-link-tab ${
