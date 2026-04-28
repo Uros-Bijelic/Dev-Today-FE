@@ -6,17 +6,19 @@ import { typedFetch } from '@/utils/api';
 // ----------------------------------------------------------------
 
 interface IEditGroupPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 const EditGroupPage: React.FC<IEditGroupPageProps> = async ({ params }) => {
+  const id = (await params).id;
+
   const session = await auth();
   if (!session) throw new Error('User data not available!');
 
   const groupDetails = await typedFetch<IGroupDetailsResponse>({
-    url: `/groups/${params.id}`,
+    url: `/groups/${id}`,
     cache: 'no-cache',
   });
 

@@ -31,34 +31,30 @@ const GoogleMapsAutocomplete: React.FC<IGoogleMapAutocompleteProps> = ({
   const map = useMap();
   const places = useMapsLibrary('places');
   const [zoom, setZoom] = useState(location.address ? 16 : 3);
-  const [center, setCenter] = useState({
+  const center = {
     lat: location.lat || 22.54992,
     lng: location.lng || 0,
-  });
+  };
   const [coordinates, setCoordinates] = useState({
     lat: location.lat || 22.54992,
     lng: location.lng || 0,
   });
   const [address, setAddress] = useState<null | string>(location.address);
 
-  const [selectedPlace, setSelectedPlace] =
-    useState<google.maps.places.PlaceResult | null>(null);
+  const [selectedPlace, setSelectedPlace] = useState<any | null>(null);
 
   // https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompleteSessionToken
-  const [sessionToken, setSessionToken] =
-    useState<google.maps.places.AutocompleteSessionToken>();
+  const [sessionToken, setSessionToken] = useState<any>();
 
   // https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service
-  const [autocompleteService, setAutocompleteService] =
-    useState<google.maps.places.AutocompleteService | null>(null);
+  const [autocompleteService, setAutocompleteService] = useState<any | null>(
+    null
+  );
 
   // https://developers.google.com/maps/documentation/javascript/reference/places-service
-  const [placesService, setPlacesService] =
-    useState<google.maps.places.PlacesService | null>(null);
+  const [placesService, setPlacesService] = useState<any | null>(null);
 
-  const [predictionResults, setPredictionResults] = useState<
-    Array<google.maps.places.AutocompletePrediction>
-  >([]);
+  const [predictionResults, setPredictionResults] = useState<any[]>([]);
 
   const [inputValue, setInputValue] = useState<string>('');
 
@@ -68,6 +64,7 @@ const GoogleMapsAutocomplete: React.FC<IGoogleMapAutocompleteProps> = ({
   useEffect(() => {
     if (!places || !map) return;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAutocompleteService(new places.AutocompleteService());
     setPlacesService(new places.PlacesService(map));
     setSessionToken(new places.AutocompleteSessionToken());
@@ -110,9 +107,7 @@ const GoogleMapsAutocomplete: React.FC<IGoogleMapAutocompleteProps> = ({
         sessionToken,
       };
 
-      const detailsRequestCallback = (
-        placeDetails: google.maps.places.PlaceResult | null
-      ) => {
+      const detailsRequestCallback = (placeDetails: any) => {
         setSelectedPlace(placeDetails);
         setPredictionResults([]);
         setInputValue(placeDetails?.formatted_address ?? '');
@@ -129,6 +124,7 @@ const GoogleMapsAutocomplete: React.FC<IGoogleMapAutocompleteProps> = ({
 
     if (selectedPlace.geometry?.viewport) {
       map.fitBounds(selectedPlace.geometry?.viewport);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCoordinates({
         lat: selectedPlace.geometry?.location?.lat() as number,
         lng: selectedPlace.geometry?.location?.lng() as number,

@@ -4,10 +4,9 @@ import Link from 'next/link';
 import ContentDetails from '@/components/content/ContentDetails';
 import FollowButton from '@/components/content/FollowButton';
 // import ShareOnSocialNetwork from '@/components/content/ShareOnSocialNetwork';
+import ShareIcon from '@/components/icons/Share';
 import SidebarContentCard from '@/components/shared/RightSidebarItems/SidebarContentCard';
 import ShareOnSocialNetworkDialog from '@/components/shared/ShareOnSocialNetworkDialog';
-// import ShareOnSocialNetworkDialog from '@/components/shared/ShareOnSocialNetworkDialog';
-import ShareIcon from '@/components/icons/Share';
 import { Button } from '@/components/ui/button';
 import { auth } from '@/lib/auth';
 import type { IComment } from '@/lib/validation';
@@ -19,13 +18,13 @@ import { calculateTimeAgo, formatDate, getFirstName } from '@/utils/format';
 // ----------------------------------------------------------------
 
 interface IContentPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 const ContentPage: React.FC<IContentPageProps> = async ({ params }) => {
-  const id = params.id;
+  const id = (await params).id;
   const session = await auth();
 
   if (!session) throw new Error('User data not available!');
@@ -62,7 +61,7 @@ const ContentPage: React.FC<IContentPageProps> = async ({ params }) => {
                 className="relative top-1 p-px "
               />
             </div>
-            <p className="p2-medium !text-white-400">
+            <p className="p2-medium text-white-400!">
               {content?.likesCount ? `${content.likesCount} Heart` : 'No likes'}
             </p>
           </div>
@@ -76,7 +75,7 @@ const ContentPage: React.FC<IContentPageProps> = async ({ params }) => {
                 className="relative p-1"
               />
             </div>
-            <p className="p2-medium !text-white-400">
+            <p className="p2-medium text-white-400!">
               {content?.commentsCount
                 ? `${content.commentsCount} Comments`
                 : 'No comments'}
@@ -92,23 +91,13 @@ const ContentPage: React.FC<IContentPageProps> = async ({ params }) => {
                 className="relative p-1"
               />
             </div>
-            <p className="p2-medium !text-white-400">
+            <p className="p2-medium text-white-400!">
               {content?.viewsCount ? `${content.viewsCount} Views` : 'No views'}
             </p>
           </div>
         </div>
-        <ShareOnSocialNetworkDialog
-          triggerBtn={
-            <Button
-              size="large"
-              className="flex-center bg-white-100 shadow-card hover:bg-white-400/30 dark:bg-black-800 hover:dark:bg-black-700 cursor-pointer gap-2 rounded py-2 transition-colors"
-            >
-              <ShareIcon className="text-black-700 dark:text-white-300" />
-              <p className="p3-medium">Share with</p>
-            </Button>
-          }
-        />
-        <div className="right-sidebar-item p2-medium !text-white-400 hidden rounded-2xl md:block ">
+        <ShareOnSocialNetworkDialog btnText="Share" />
+        <div className="right-sidebar-item p2-medium text-white-400! hidden rounded-2xl md:block ">
           <p>
             <span className="text-blue-500">{authorName} </span> Posted on{' '}
           </p>
@@ -130,11 +119,11 @@ const ContentPage: React.FC<IContentPageProps> = async ({ params }) => {
             width={100}
             height={100}
             alt={authorResponse.user.userName}
-            className="size-[100px] rounded-full"
+            className="size-25 rounded-full"
           />
           <div>
             <h2 className="d2-bold">{authorResponse.user?.userName}</h2>
-            <p className="p2-medium !text-white-400 text-center">
+            <p className="p2-medium text-white-400! text-center">
               @{getFirstName(authorResponse.user.userName)}
             </p>
           </div>

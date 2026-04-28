@@ -11,15 +11,20 @@ import { parseSearchParams } from '@/utils/query';
 // ----------------------------------------------------------------
 
 interface IPostsPageProps {
-  searchParams: {
+  searchParams: Promise<{
     tag: string | string[] | undefined;
     sortBy: string | string[] | undefined;
-  };
+  }>;
 }
 
 const PostsPage: React.FC<IPostsPageProps> = async ({ searchParams }) => {
-  const tag = parseSearchParams(searchParams.tag, '').toLowerCase();
-  const sortBy = parseSearchParams(searchParams.sortBy, '') as ESortByFilter;
+  const resolvedSearchParams = await searchParams;
+
+  const tag = parseSearchParams(resolvedSearchParams.tag, '').toLowerCase();
+  const sortBy = parseSearchParams(
+    resolvedSearchParams.sortBy,
+    ''
+  ) as ESortByFilter;
 
   const session = await auth();
   if (!session) throw new Error('User not available!');

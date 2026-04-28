@@ -167,13 +167,13 @@ const CreateGroup: React.FC<ICreateGroup> = ({ viewerId, group }) => {
                       <Button
                         type="button"
                         onClick={() => form.setValue('coverImage', null)}
-                        className="text-white-400 hover:bg-black-700 dark:text-white-100 absolute right-0 top-[-40px] size-8 dark:border-gray-500"
+                        className="text-white-400 hover:bg-black-700 dark:text-white-100 absolute right-0 -top-10 size-8 dark:border-gray-500"
                       >
                         X
                       </Button>
                     </div>
                   ) : (
-                    <div className="dashed-border !text-white-400 flex h-64 w-full items-center justify-center rounded-lg">
+                    <div className="dashed-border text-white-400! flex h-64 w-full items-center justify-center rounded-lg">
                       <div className="flex flex-col items-center">
                         <CldUploadWidget
                           uploadPreset={
@@ -198,7 +198,7 @@ const CreateGroup: React.FC<ICreateGroup> = ({ viewerId, group }) => {
                                 open();
                               }}
                               type="button"
-                              className="bg-white-100 dark:bg-black-800 mb-3 flex max-w-[200px] items-center gap-3 rounded-lg py-2"
+                              className="bg-white-100 dark:bg-black-800 mb-3 flex max-w-50 items-center gap-3 rounded-lg py-2"
                             >
                               <Image
                                 src="/assets/icons/upload-icon.svg"
@@ -211,7 +211,7 @@ const CreateGroup: React.FC<ICreateGroup> = ({ viewerId, group }) => {
                             </Button>
                           )}
                         </CldUploadWidget>
-                        <p className="p4-regular !text-white-400">
+                        <p className="p4-regular text-white-400!">
                           Drag & Drop or upload png or jpeg up to 16MB
                         </p>
                       </div>
@@ -234,6 +234,7 @@ const CreateGroup: React.FC<ICreateGroup> = ({ viewerId, group }) => {
                     <CreatableSelect
                       instanceId={field.name}
                       {...field}
+                      unstyled
                       classNames={generateSelectStyles()}
                       isMulti
                       onInputChange={(value) => setQ(value)}
@@ -270,8 +271,8 @@ const CreateGroup: React.FC<ICreateGroup> = ({ viewerId, group }) => {
                   <FormLabel>Add members</FormLabel>
                   <CreatableSelect
                     instanceId={field.name}
-                    // className="border rounded-md dark:border-black-700/50"
                     {...field}
+                    unstyled
                     classNames={generateSelectStyles()}
                     isMulti
                     onInputChange={(value) => setQ(value)}

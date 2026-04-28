@@ -10,18 +10,20 @@ import { parseSearchParams } from '@/utils/query';
 // ----------------------------------------------------------------
 
 interface IMyProfilePageProps {
-  searchParams: {
+  searchParams: Promise<{
     page: string | string[] | undefined;
     type: string | string[] | undefined;
-  };
+  }>;
 }
 
 const MyProfilePage: React.FC<IMyProfilePageProps> = async ({
   searchParams,
 }) => {
-  const page = parseSearchParams(searchParams.page, '1');
+  const reslovedParams = await searchParams;
+
+  // const page = parseSearchParams(searchParams.page, '1');
   const contentType = parseSearchParams<EQueryType>(
-    searchParams.type,
+    reslovedParams.type,
     EQueryType.POST
   );
 

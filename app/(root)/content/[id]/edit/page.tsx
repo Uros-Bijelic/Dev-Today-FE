@@ -6,18 +6,19 @@ import { typedFetch } from '@/utils/api';
 // ----------------------------------------------------------------
 
 interface IEditContentPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 const EditContentPage: React.FC<IEditContentPageProps> = async ({ params }) => {
+  const id = (await params).id;
   const session = await auth();
 
   if (!session) throw new Error(' User data not available!');
 
   const content = await typedFetch<IContentDTO>({
-    url: `/content/${params.id}`,
+    url: `/content/${id}`,
     cache: 'no-cache',
   });
 

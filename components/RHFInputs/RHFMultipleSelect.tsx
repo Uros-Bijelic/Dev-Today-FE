@@ -52,6 +52,7 @@ const RHFMultipleSelect: React.FC<IRHFMultipleSelectProps> = ({
             <CreatableSelect
               isMulti
               isClearable
+              unstyled
               options={options}
               onChange={(newValue, actionMeta) => {
                 if (actionMeta.option?.value === '') return;
@@ -79,7 +80,7 @@ const RHFMultipleSelect: React.FC<IRHFMultipleSelectProps> = ({
                 option: (state) =>
                   `bg-black-700 dark:text-white-300 ${
                     state.isFocused ? 'dark:!bg-black-700 !bg-white-300' : ''
-                  } !cursor-pointer`,
+                  } !cursor-pointer p-2`,
                 menuList: () => 'bg-white-100 dark:bg-black-800',
                 multiValueLabel: () => 'dark:text-white-300 text-black-700',
                 multiValueRemove: () =>
@@ -101,18 +102,17 @@ const RHFMultipleSelect: React.FC<IRHFMultipleSelectProps> = ({
 export const generateSelectStyles = () => {
   return {
     control: () =>
-      // TODO Add different hover and focus effect since we will probably add the same to the Inputs
-      'bg-white-100 dark:bg-black-800 border !border-white-border dark:!border-[#393E4F66] px-3 !min-h-[46px] !shadow-none',
+      '!bg-white-100 dark:!bg-black-800 border !border-white-border dark:!border-[#393E4F66] px-3 !min-h-[46px] !shadow-none !rounded-lg transition-colors hover:!border-white-400 dark:hover:!border-[#50576B] focus-within:!border-primary-500 focus-within:!ring-1 focus-within:!ring-primary-500/40',
     clearIndicator: () => '!hidden',
     dropdownIndicator: () => '!hidden',
     indicatorSeparator: () => '!hidden',
     placeholder: () =>
       'dark:placeholder:!text-white-400 placeholder:!text-white-400 !text-sm !font-medium',
-    input: () => '!p3-regular hover:outline-none',
+    input: () => '!p3-regular hover:outline-none ',
     option: (state: any) =>
       `bg-black-700 dark:text-white-300 ${
         state.isFocused ? 'dark:!bg-black-700 !bg-white-300' : ''
-      }  ${state.isSelected ? '!bg-inherit' : ''} !cursor-pointer`,
+      }  ${state.isSelected ? '!bg-inherit' : ''} !cursor-pointer p-2`,
     menuList: () => 'bg-white-100 dark:bg-black-800',
     multiValueLabel: () => 'dark:text-white-300 text-black-700',
     multiValueRemove: () =>
@@ -130,7 +130,7 @@ export const MemberAdminFormatedOption = (
   if (context === 'value') {
     return (
       <div className="flex items-center gap-1">
-        <div className="flex-center bg-white-100 size-[20px] rounded-full">
+        <div className="flex-center bg-white-100 size-5 rounded-full">
           <Image
             src={'/assets/images/avatars/avatar-2.svg'}
             alt={option.label}
