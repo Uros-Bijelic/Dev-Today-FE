@@ -58,7 +58,10 @@ const AudioPlayer: React.FC<IAudioPlayerProps> = ({
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
 
-  const progress = (currentTime / duration) * 100;
+  const progress = Math.min(
+    100,
+    Math.max(0, duration ? (currentTime / duration) * 100 : 0)
+  );
 
   return (
     <div className="bg-white-200 dark:bg-black-800 flex flex-row items-start gap-6 rounded-lg p-4 shadow-md sm:py-10 md:items-center md:gap-12">
