@@ -2,6 +2,8 @@
 
 import { useEffect } from 'react';
 
+import { Button } from '@/components/ui/button';
+
 export default function Error({
   error,
   reset,
@@ -17,15 +19,15 @@ export default function Error({
   return (
     <div className="pt-50">
       <h2>{error.message}</h2>
-      <button
-        className="bg-white-100"
+      <Button
+        className="bg-white-100 text-"
         onClick={
           // Attempt to recover by trying to re-render the segment
           () => reset()
         }
       >
         Try again
-      </button>
+      </Button>
     </div>
   );
 }
