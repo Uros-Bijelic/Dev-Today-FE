@@ -24,7 +24,7 @@ interface IGoogleMapsMeetupDisplayProps {
 const GoogleMapsMeetupDisplay: React.FC<IGoogleMapsMeetupDisplayProps> = ({
   location,
 }) => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [zoom, setZoom] = useState(location.address ? 16 : 3);
 
   const [center, setCenter] = useState({
@@ -33,11 +33,12 @@ const GoogleMapsMeetupDisplay: React.FC<IGoogleMapsMeetupDisplayProps> = ({
   });
 
   const darkLightMode =
-    theme === 'dark' ? '7a9e2ebecd32a903' : '3fec513989decfcd';
+    resolvedTheme === 'dark' ? '7a9e2ebecd32a903' : '3fec513989decfcd';
 
   return (
     <div className="h-60">
       <Map
+        key={resolvedTheme}
         style={{ width: '100%', height: '100%' }}
         defaultCenter={center}
         defaultZoom={zoom}

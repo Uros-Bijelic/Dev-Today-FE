@@ -14,7 +14,7 @@ interface ILeftSidebarProps {
     label: string;
     bgColor?: string;
   }[];
-  // isMounted: boolean;
+  isMounted: boolean;
   theme: string | undefined;
 }
 
@@ -23,13 +23,13 @@ const colors = ['bg-[#FFECE6]', 'bg-[#FDF4EA]', 'bg-[#EBF2FC]'];
 const LeftSidebar: React.FC<ILeftSidebarProps> = ({
   title,
   listItems,
-  // isMounted,
+  isMounted,
   theme,
 }) => {
   return (
     <div className="auth-onboarding-left-sidebar">
       <div className="mt-9 mb-12 max-md:mx-auto md:mb-20 md:ml-12">
-        <ThemeLogo theme={theme} />
+        <ThemeLogo isMounted={isMounted} theme={theme} />
       </div>
       <div className="mx-auto flex w-full max-w-md flex-col gap-10 max-md:hidden">
         <h1 className="d1-bold">{title}</h1>

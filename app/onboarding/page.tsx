@@ -26,6 +26,7 @@ import {
   generateOnboardingStepData,
   PREFERRED_SKILLS,
 } from '@/constants';
+import { useIsMounted } from '@/hooks/use-is-mounted';
 import { type IOnboardingSchema, onboardingSchema } from '@/lib/validation';
 import LoadingSpinner from '@/components/shared/Loaders/LoadingSpinner';
 
@@ -35,6 +36,7 @@ const BASE_API_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
 const OnboardingPage = () => {
   const { resolvedTheme } = useTheme();
+  const isMounted = useIsMounted();
   const router = useRouter();
   const [step, setStep] = useState(1);
   const { data: session } = useSession();
@@ -119,12 +121,13 @@ const OnboardingPage = () => {
       <LeftSidebar
         title={generateOnboardingStepData(step).title}
         listItems={generateOnboardingStepData(step).listItems}
+        isMounted={isMounted}
         theme={resolvedTheme}
       />
       <div className="auth-onboarding-right-sidebar gap-10">
         <div className="flex w-full max-w-md flex-col gap-10">
           <div className="mx-auto md:hidden">
-            <ThemeLogo theme={resolvedTheme} />
+            <ThemeLogo isMounted={isMounted} theme={resolvedTheme} />
           </div>
           <h1 className="d1-bold">
             {step === 1 &&

@@ -36,9 +36,13 @@ const ContentPage: React.FC<IContentPageProps> = async ({ params }) => {
     cache: 'no-cache',
   });
 
+  if (!content) throw new Error('Post not available!');
+
   const authorResponse = await typedFetch<IProfileUserResponse>({
     url: `/user/${content.authorId}`,
   });
+
+  if (!authorResponse) throw new Error('Author data not available!');
 
   const authorName = getFirstName(authorResponse.user.userName);
 

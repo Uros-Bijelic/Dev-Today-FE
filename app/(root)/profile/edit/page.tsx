@@ -14,6 +14,8 @@ const EditProfilePage: React.FC = async () => {
     cache: 'no-store',
   });
 
+  if (!userResult) throw new Error('User data not available!');
+
   return <EditProfile user={userResult.user} />;
 };
 

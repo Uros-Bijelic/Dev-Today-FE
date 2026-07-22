@@ -13,6 +13,7 @@ import RHFInput from '@/components/RHFInputs/RHFInput';
 import ThemeLogo from '@/components/shared/ThemeLogo';
 import { Form } from '@/components/ui/form';
 import { SIGN_UP_SIDEBAR_DATA } from '@/constants';
+import { useIsMounted } from '@/hooks/use-is-mounted';
 import { type IRegisterSchema, registerSchema } from '@/lib/validation';
 import LoadingSpinner from '@/components/shared/Loaders/LoadingSpinner';
 
@@ -22,6 +23,7 @@ const BASE_API_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
 const RegisterPage = () => {
   const { resolvedTheme } = useTheme();
+  const isMounted = useIsMounted();
   const router = useRouter();
 
   const form = useForm<IRegisterSchema>({
@@ -81,11 +83,12 @@ const RegisterPage = () => {
       <LeftSidebar
         title={SIGN_UP_SIDEBAR_DATA.title}
         listItems={SIGN_UP_SIDEBAR_DATA.listItems}
+        isMounted={isMounted}
         theme={resolvedTheme}
       />
       <div className="auth-onboarding-right-sidebar">
         <div className="mx-auto mb-14 md:hidden">
-          <ThemeLogo theme={resolvedTheme} />
+          <ThemeLogo isMounted={isMounted} theme={resolvedTheme} />
         </div>
         <Form {...form}>
           <form

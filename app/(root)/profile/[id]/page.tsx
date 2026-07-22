@@ -38,6 +38,8 @@ const UserProfilePage: React.FC<IUserProfilePageProps> = async ({
     url: `/user/${id}`,
   });
 
+  if (!userResponse) throw new Error('User data not available!');
+
   let content = {};
   let groups = {};
   if (contentType === EQueryType.GROUP) {

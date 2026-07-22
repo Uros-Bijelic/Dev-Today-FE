@@ -12,6 +12,7 @@ import RHFInput from '@/components/RHFInputs/RHFInput';
 import ThemeLogo from '@/components/shared/ThemeLogo';
 import { Form } from '@/components/ui/form';
 import { SIGN_IN_SIDEBAR_DATA } from '@/constants';
+import { useIsMounted } from '@/hooks/use-is-mounted';
 import { type ILoginSchema, loginSchema } from '@/lib/validation';
 import LoadingSpinner from '@/components/shared/Loaders/LoadingSpinner';
 
@@ -19,6 +20,7 @@ import LoadingSpinner from '@/components/shared/Loaders/LoadingSpinner';
 
 const LoginPage = () => {
   const { resolvedTheme } = useTheme();
+  const isMounted = useIsMounted();
   const router = useRouter();
 
   const form = useForm<ILoginSchema>({
@@ -52,11 +54,12 @@ const LoginPage = () => {
       <LeftSidebar
         title={SIGN_IN_SIDEBAR_DATA.title}
         listItems={SIGN_IN_SIDEBAR_DATA.listItems}
+        isMounted={isMounted}
         theme={resolvedTheme}
       />
       <div className="auth-onboarding-right-sidebar ">
         <div className="mx-auto mb-14 md:hidden">
-          <ThemeLogo theme={resolvedTheme} />
+          <ThemeLogo isMounted={isMounted} theme={resolvedTheme} />
         </div>
         <p className="mb-4 text-green-500">
           Demo account: test@test.com pw: 123123
