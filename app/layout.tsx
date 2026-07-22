@@ -9,6 +9,7 @@ import QueryProvider from '@/context/QueryProvider';
 import SessionProvider from '@/context/SessionProvider';
 import { auth } from '@/lib/auth';
 import './globals.css';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 // ----------------------------------------------------------------
 
@@ -38,14 +39,18 @@ const RootLayout = async ({
             className={`${ibmPlexSans.className} bg-white-200 dark:bg-black-900 min-h-screen overflow-auto`}
           >
             <ThemeProvider>
-              <Toaster
-                toastOptions={{
-                  className:
-                    'dark:!bg-black-600 dark:!text-white-100 !bg-white-200 !text-white-400',
-                }}
-              />
-              <main className="max-w-screen-xxl mx-auto">{children}</main>
-              {process.env.NODE_ENV === 'development' && <ReactQueryDevtools />}
+              <TooltipProvider>
+                <Toaster
+                  toastOptions={{
+                    className:
+                      'dark:!bg-black-600 dark:!text-white-100 !bg-white-200 !text-white-400',
+                  }}
+                />
+                <main className="max-w-screen-xxl mx-auto">{children}</main>
+                {process.env.NODE_ENV === 'development' && (
+                  <ReactQueryDevtools />
+                )}
+              </TooltipProvider>
             </ThemeProvider>
           </body>
         </html>

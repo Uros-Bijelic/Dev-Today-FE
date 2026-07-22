@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
 import ContentDetails from '@/components/content/ContentDetails';
@@ -36,9 +37,13 @@ const ContentPage: React.FC<IContentPageProps> = async ({ params }) => {
     cache: 'no-cache',
   });
 
+  if (!content) notFound();
+
   const authorResponse = await typedFetch<IProfileUserResponse>({
     url: `/user/${content.authorId}`,
   });
+
+  if (!authorResponse) notFound();
 
   const authorName = getFirstName(authorResponse.user.userName);
 

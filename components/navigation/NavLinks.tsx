@@ -5,6 +5,7 @@ import FrameIcon from '../icons/Frame';
 import GroupsIcon from '../icons/Groups';
 import PlusIcon from '../icons/Plus';
 import PodcastIcon from '../icons/Podcast';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -54,11 +55,36 @@ const verifyRoute = (page: EPage, pathname: string) => {
 };
 
 const PAGES = [
-  { href: '/posts', icon: FrameIcon, page: EPage.CONTENT },
-  { href: '/meetups', icon: CalendarIcon, page: EPage.MEETUPS },
-  { href: '/podcasts', icon: PodcastIcon, page: EPage.PODCASTS },
-  { href: '/groups', icon: GroupsIcon, page: EPage.GROUPS },
-  { href: '/content/create', icon: PlusIcon, page: EPage.CREATE },
+  {
+    href: '/posts',
+    icon: FrameIcon,
+    page: EPage.CONTENT,
+    tooltipMessage: 'Posts',
+  },
+  {
+    href: '/meetups',
+    icon: CalendarIcon,
+    page: EPage.MEETUPS,
+    tooltipMessage: 'Meetups',
+  },
+  {
+    href: '/podcasts',
+    icon: PodcastIcon,
+    page: EPage.PODCASTS,
+    tooltipMessage: 'Podcasts',
+  },
+  {
+    href: '/groups',
+    icon: GroupsIcon,
+    page: EPage.GROUPS,
+    tooltipMessage: 'Groups',
+  },
+  {
+    href: '/content/create',
+    icon: PlusIcon,
+    page: EPage.CREATE,
+    tooltipMessage: 'New Post',
+  },
 ];
 
 const NavLinks: React.FC = () => {
@@ -66,18 +92,23 @@ const NavLinks: React.FC = () => {
 
   return (
     <nav className="flex gap-5">
-      {PAGES.map(({ href, icon: Icon, page }) => {
+      {PAGES.map(({ href, icon: Icon, page, tooltipMessage }) => {
         const isActive = verifyRoute(page, pathname);
         return (
-          <Link
-            key={page}
-            href={href}
-            className={`group rounded-[7px] p-2.5 ${isActive ? 'bg-primary-500' : ''} hover:bg-white-300 dark:hover:bg-white-400 transition-colors`}
-          >
-            <Icon
-              className={`icon-light400__dark300 ${isActive ? '!text-white-100 dark:!text-white-100' : ''} group-hover:dark:text-white-100 transition-colors`}
-            />
-          </Link>
+          <Tooltip key={href}>
+            <TooltipTrigger asChild>
+              <Link
+                key={page}
+                href={href}
+                className={`group rounded-[7px] p-2.5 ${isActive ? 'bg-primary-500' : ''} hover:bg-white-300 dark:hover:bg-white-400 transition-colors`}
+              >
+                <Icon
+                  className={`icon-light400__dark300 ${isActive ? 'text-white-100! dark:text-white-100!' : ''} group-hover:dark:text-white-100 transition-colors`}
+                />
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent>{tooltipMessage}</TooltipContent>
+          </Tooltip>
         );
       })}
     </nav>

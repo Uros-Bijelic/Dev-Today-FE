@@ -27,7 +27,7 @@ const GoogleMapsAutocomplete: React.FC<IGoogleMapAutocompleteProps> = ({
   const { getValues } = useFormContext();
   const location = getValues('meetupLocation');
 
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const map = useMap();
   const places = useMapsLibrary('places');
   const [zoom, setZoom] = useState(location.address ? 16 : 3);
@@ -59,7 +59,7 @@ const GoogleMapsAutocomplete: React.FC<IGoogleMapAutocompleteProps> = ({
   const [inputValue, setInputValue] = useState<string>('');
 
   const darkLightMode =
-    theme === 'dark' ? '7a9e2ebecd32a903' : '3fec513989decfcd';
+    resolvedTheme === 'dark' ? '7a9e2ebecd32a903' : '3fec513989decfcd';
 
   useEffect(() => {
     if (!places || !map) return;
@@ -143,6 +143,7 @@ const GoogleMapsAutocomplete: React.FC<IGoogleMapAutocompleteProps> = ({
   return (
     <div className="h-80">
       <Map
+        key={resolvedTheme}
         style={{ width: '100%', height: '100%' }}
         defaultCenter={center}
         defaultZoom={zoom}

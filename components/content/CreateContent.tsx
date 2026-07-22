@@ -80,7 +80,7 @@ const CreateContent: React.FC<ICreateContentProps> = ({
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [q, setQ] = useState('');
   const [title, setTitle] = useState('');
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [debouncedQ] = useDebounce(q, 500);
   const [debouncedTitle] = useDebounce(title, 500);
   const editorRef = useRef<any>(null);
@@ -676,23 +676,23 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                 <FormLabel>Content</FormLabel>
                 <FormControl>
                   <Editor
+                    key={resolvedTheme}
                     apiKey={process.env.NEXT_PUBLIC_TINY_SECRET}
                     onInit={(_, editor) => (editorRef.current = editor)}
                     onBlur={field.onBlur}
                     value={field.value}
                     onEditorChange={(content) => field.onChange(content)}
                     init={{
-                      skin: theme === 'dark' ? 'oxide-dark' : 'oxide',
+                      skin: resolvedTheme === 'dark' ? 'oxide-dark' : 'oxide',
                       toolbar_location: 'top',
-                      content_css: 'dark',
+                      content_css:
+                        resolvedTheme === 'dark' ? 'dark' : 'default',
                       content_style: `body {
                            font-family: Roboto, sans-serif;
                            font-size: 14px;
-                           color: ${theme === 'dark' ? '#FFFFFF' : '#1F2128'} !important;
-                           ${theme === 'dark' ? 'background-color: #262935;' : 'background-color: #ffffff;'}!important;
+                           color: ${resolvedTheme === 'dark' ? '#FFFFFF' : '#1F2128'} !important;
+                           ${resolvedTheme === 'dark' ? 'background-color: #262935;' : 'background-color: #ffffff;'}!important;
                           }
-                           color: #FFFFFF !important;}
-                                              
                          body::-webkit-scrollbar {
                            display: none;
                          }
@@ -702,10 +702,10 @@ const CreateContent: React.FC<ICreateContentProps> = ({
                            padding: 5px;
                          }
                          body::before {
-                           color: #FFFFFF !important;
+                           color: ${resolvedTheme === 'dark' ? '#FFFFFF' : '#1F2128'} !important;
                          }
                          h2 {
-                           color: ${theme === 'dark' ? '#FFFFFF' : '#000000'} !important;
+                           color: ${resolvedTheme === 'dark' ? '#FFFFFF' : '#000000'} !important;
                          }`,
                       menubar: false,
                       plugins: 'code codesample link preview image lists',
