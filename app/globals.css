@@ -234,6 +234,24 @@ body::-webkit-scrollbar {
   }
   /* SPINNING LOADER */
 
+  /* SPINNING LOADER - SMALL (inline, e.g. inside buttons) */
+  .loader-sm {
+    @apply size-5 rounded-full inline-block relative border-2 border-primary-500 border-t-transparent border-r-transparent box-border;
+    animation: rotation 1s linear infinite;
+  }
+  .loader-sm::after,
+  .loader-sm::before {
+    content: '';
+    @apply box-border absolute inset-0 m-auto border-2 border-transparent border-b-white-100 border-l-white-100 rounded-full;
+    animation: rotationBack 0.5s linear infinite;
+    transform-origin: center;
+  }
+  .loader-sm::before {
+    @apply w-3 h-3 border-primary-500 border-t-transparent border-r-transparent;
+    animation: rotation 1.5s linear infinite;
+  }
+  /* SPINNING LOADER - SMALL */
+
   /* Hide scrollbar for IE, Edge and Firefox etc */
   .no-scrollbar::-webkit-scrollbar {
     display: none;

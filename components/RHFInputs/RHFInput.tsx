@@ -39,7 +39,7 @@ const RHFInput: React.FC<IRHFInputProps> = ({
           <FormControl>
             <Input type={type} {...field} {...rest} />
           </FormControl>
-          {description && <FormDescription>{description}</FormDescription>}
+          <FormDescription>{description}</FormDescription>
           <FormMessage />
         </FormItem>
       )}

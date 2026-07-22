@@ -241,7 +241,10 @@ export type IPutPodcastDTO = z.infer<typeof putPodcastDTOSchema>;
 
 export const commentFormSchema = z.object({
   id: z.string().optional(),
-  text: z.string().min(2).max(1000),
+  text: z
+    .string()
+    .min(2, 'Comment must contain at least 2 characters.')
+    .max(1000),
   editMessage: z.string().optional(),
   authorId: z.string(),
   contentId: z.string(),
@@ -262,7 +265,7 @@ export type ICommentFormSchema = z.infer<typeof commentFormSchema>;
 
 export const baseCommentSchema = z.object({
   id: z.string(),
-  text: z.string(),
+  text: z.string('Comment must contain at least 2 characters.'),
   createdAt: z.date(),
   authorId: z.string(),
   userName: z.string(),

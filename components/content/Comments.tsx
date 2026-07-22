@@ -112,19 +112,19 @@ const Comments: React.FC<ICommentsProps> = ({
     <div className="mt-20! max-w-206.25 space-y-5">
       <h2 className="h1-medium">Comments</h2>
       <div className="flex items-center gap-3">
-        <div className="bg-white-100 rounded-full p-1 px-2">
+        <div className="bg-white-100 self-baseline rounded-full p-1 px-2">
           <Image
             src="/assets/images/avatars/avatar-1.svg"
             width={32}
             height={30}
             alt="avatar"
-            className="ml-1 rounded-full"
+            className="ml-1 self-baseline rounded-full"
           />
         </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full space-y-8"
+            className="flex w-full items-center gap-2"
           >
             <RHFInput
               name="text"
@@ -137,6 +137,13 @@ const Comments: React.FC<ICommentsProps> = ({
                 }
               }}
             />
+            <Button
+              variant="primary"
+              type="submit"
+              className="w-auto shrink-0 self-baseline px-7 whitespace-nowrap"
+            >
+              Send
+            </Button>
           </form>
         </Form>
       </div>

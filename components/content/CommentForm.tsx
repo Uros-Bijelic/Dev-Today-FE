@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
+import LoadingSpinner from '@/components/shared/Loaders/LoadingSpinner';
 import { Form } from '@/components/ui/form';
 import { revalidateRoute } from '@/lib/actions/revalidate';
 import {
@@ -41,6 +42,7 @@ const CommentForm: React.FC<ICommentProps> = ({
       text: isReplying ? '' : comment?.text || '',
     },
   });
+  const { isSubmitting } = form.formState;
 
   const onSubmit = async (data: IEditAndReplyCommentSchema) => {
     if (isReplying) {
@@ -140,8 +142,10 @@ const CommentForm: React.FC<ICommentProps> = ({
                 <span className="text-white-400 ">|</span>
                 <Button
                   type="submit"
+                  disabled={isSubmitting}
                   className="p3-medium text-primary-500! w-20 capitalize"
                 >
+                  {isSubmitting && <LoadingSpinner size="sm" />}
                   {isEdit ? 'Save' : 'Reply'}
                 </Button>
               </div>

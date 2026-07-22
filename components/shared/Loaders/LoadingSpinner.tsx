@@ -1,8 +1,12 @@
 interface ILoadingSpinnerProps {
   asLayout?: boolean;
+  size?: 'default' | 'sm';
 }
 
-const LoadingSpinner: React.FC<ILoadingSpinnerProps> = ({ asLayout }) => {
+const LoadingSpinner: React.FC<ILoadingSpinnerProps> = ({
+  asLayout,
+  size = 'default',
+}) => {
   return (
     <div
       className={`flex items-center justify-center ${
@@ -12,7 +16,7 @@ const LoadingSpinner: React.FC<ILoadingSpinnerProps> = ({ asLayout }) => {
       }`}
     >
       <div />
-      <span className="loader"></span>
+      <span className={size === 'sm' ? 'loader-sm' : 'loader'}></span>
     </div>
   );
 };
