@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
 import ContentDetails from '@/components/content/ContentDetails';
@@ -36,13 +37,13 @@ const ContentPage: React.FC<IContentPageProps> = async ({ params }) => {
     cache: 'no-cache',
   });
 
-  if (!content) throw new Error('Post not available!');
+  if (!content) notFound();
 
   const authorResponse = await typedFetch<IProfileUserResponse>({
     url: `/user/${content.authorId}`,
   });
 
-  if (!authorResponse) throw new Error('Author data not available!');
+  if (!authorResponse) notFound();
 
   const authorName = getFirstName(authorResponse.user.userName);
 
